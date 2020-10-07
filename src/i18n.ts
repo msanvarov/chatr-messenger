@@ -4,7 +4,6 @@ import { initReactI18next } from 'react-i18next';
 
 import translationGr from 'locales/gr/translation.json';
 import translationIT from 'locales/it/translation.json';
-import translationSP from 'locales/sp/translation.json';
 import translationRS from 'locales/rs/translation.json';
 import translationENG from 'locales/en/translation.json';
 
@@ -16,9 +15,6 @@ const resources = {
   it: {
     translation: translationIT,
   },
-  sp: {
-    translation: translationSP,
-  },
   rs: {
     translation: translationRS,
   },
@@ -29,16 +25,14 @@ const resources = {
 
 i18n
   .use(detector)
-  .use(initReactI18next) // passes i18n down to react-i18next
+  .use(initReactI18next)
   .init({
     resources,
     lng: 'en',
-    fallbackLng: 'en', // use en if detected lng is not available
-
-    keySeparator: false, // we do not use keys in form messages.welcome
-
+    fallbackLng: 'en',
+    keySeparator: false,
     interpolation: {
-      escapeValue: false, // react already safes from xss
+      escapeValue: false,
     },
   });
 
