@@ -8,6 +8,7 @@ type FooterProps = {
   linkText: string;
 };
 
+// TODO refactor footer to be cleaner
 const Footer: React.FC<FooterProps> = ({ text, linkText, linkTo }) => {
   const { t } = useTranslation();
   return (
