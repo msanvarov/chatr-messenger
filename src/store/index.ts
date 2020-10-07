@@ -6,7 +6,6 @@ import { firestoreReducer } from 'redux-firestore';
 
 interface Profile {
   email: string;
-  company: string;
   photoURL: string;
   displayName: string;
 }
