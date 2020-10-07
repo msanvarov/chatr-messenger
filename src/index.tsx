@@ -43,6 +43,7 @@ const reactReduxFirebaseProps = {
   config: {
     userProfile: 'users',
     useFirestoreForProfile: true,
+    enableLogging: true,
   },
   createFirestoreInstance,
 };
