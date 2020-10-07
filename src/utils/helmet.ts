@@ -1,7 +1,7 @@
 import favicon from 'assets/photos/favicon.png';
 
-const title = 'The Shoppies';
-const description = 'The easiest and fastest way to nominate and browse for movies.';
+const title = 'Chatr';
+const description = 'The easiest and fastest way to communite with others and make friends.';
 
 export const helmet = {
   title,
