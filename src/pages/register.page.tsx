@@ -1,4 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
 import {
   Card,
   CardBody,
@@ -12,45 +16,35 @@ import {
   InputGroup,
   InputGroupAddon,
 } from 'reactstrap';
-import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import * as Yup from 'yup';
-import { useFirebase } from 'react-redux-firebase';
-import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
 import LogoDarkPNG from 'assets/logo-dark.png';
 import LogoLightPNG from 'assets/logo-light.png';
+import { Helmet } from 'react-helmet';
 import Footer from 'components/non-auth-layout/footer/footer.component';
 
-const LoginSchema = Yup.object().shape({
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
-});
-
-const LoginPage = () => {
-  const firebase = useFirebase();
+const RegisterPage = () => {
   const { t } = useTranslation();
-  const [formErrors, setFormErrors] = useState<string>();
+  const [formError] = useState<string>();
+  // validation
   const { handleChange, handleBlur, handleSubmit, errors, touched, values } = useFormik({
-    validationSchema: LoginSchema,
-    initialValues: { email: '', password: '' },
-    onSubmit: async ({ email, password }) => {
-      try {
-        // login
-        const { user } = await firebase.login({ email, password });
-        if (!user?.emailVerified) {
-          setFormErrors(
-            'Please verify your account by clicking the Hopin registration link in the email',
-          );
-        }
-      } catch (error) {
-        setFormErrors((error as Error).message);
-      }
+    initialValues: {
+      username: '',
+      email: '',
+      password: '',
+    },
+    validationSchema: Yup.object({
+      username: Yup.string().required('Required'),
+      email: Yup.string().email('Enter proper email').required('Required'),
+      password: Yup.string().required('Required'),
+    }),
+    onSubmit: ({ username, email, password }) => {
+      console.log(username, email, password);
     },
   });
+
   return (
     <>
-      <Helmet title="Login" />
+      <Helmet title="Register" />
 
       <div className="text-center mb-4">
         <Link to="/" className="auth-logo mb-5 d-block">
@@ -58,13 +52,14 @@ const LoginPage = () => {
           <img src={LogoLightPNG} alt="light logo" height="120" className="logo logo-light" />
         </Link>
 
-        <h4>{t('Sign in')}</h4>
-        <p className="text-muted mb-4">{t('Sign in to continue to Chatr.')}</p>
+        <h4>{t('Sign up')}</h4>
+        <p className="text-muted mb-4">{t('Get your Chatr account now')}.</p>
       </div>
 
       <Card>
         <CardBody className="p-4">
-          {formErrors && <Alert color="danger">{formErrors}</Alert>}
+          {formError && <Alert color="danger">{formError}</Alert>}
+          {false && <Alert variant="success">Thank You for registering with us!</Alert>}
           <div className="p-3">
             <Form onSubmit={handleSubmit}>
               <FormGroup>
@@ -72,7 +67,7 @@ const LoginPage = () => {
                 <InputGroup className="mb-3 bg-soft-light input-group-lg rounded-lg">
                   <InputGroupAddon addonType="prepend">
                     <span className="input-group-text border-light text-muted">
-                      <i className="ri-user-2-line"></i>
+                      <i className="ri-mail-line"></i>
                     </span>
                   </InputGroupAddon>
                   <Input
@@ -92,12 +87,32 @@ const LoginPage = () => {
                 </InputGroup>
               </FormGroup>
 
+              <FormGroup>
+                <Label>{t('Username')}</Label>
+                <InputGroup className="mb-3 bg-soft-light input-group-lg rounded-lg">
+                  <InputGroupAddon addonType="prepend">
+                    <span className="input-group-text border-light text-muted">
+                      <i className="ri-user-2-line"></i>
+                    </span>
+                  </InputGroupAddon>
+                  <Input
+                    type="text"
+                    id="username"
+                    name="username"
+                    className="form-control bg-soft-light border-light"
+                    placeholder="Enter Username"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.username}
+                    invalid={touched.username && errors.username ? true : false}
+                  />
+                  {touched.username && errors.username ? (
+                    <FormFeedback type="invalid">{errors.username}</FormFeedback>
+                  ) : null}
+                </InputGroup>
+              </FormGroup>
+
               <FormGroup className="mb-4">
-                <div className="float-right">
-                  <Link to="forget-password" className="text-muted font-size-13">
-                    {t('Forgot password')}?
-                  </Link>
-                </div>
                 <Label>{t('Password')}</Label>
                 <InputGroup className="mb-3 bg-soft-light input-group-lg rounded-lg">
                   <InputGroupAddon addonType="prepend">
@@ -122,26 +137,28 @@ const LoginPage = () => {
                 </InputGroup>
               </FormGroup>
 
-              <div className="custom-control custom-checkbox mb-4">
-                <Input type="checkbox" className="custom-control-input" id="remember-check" />
-                <Label className="custom-control-label" htmlFor="remember-check">
-                  {t('Remember me')}
-                </Label>
-              </div>
-
               <div>
                 <Button color="primary" block className=" waves-effect waves-light" type="submit">
-                  {t('Sign in')}
+                  Sign up
                 </Button>
+              </div>
+
+              <div className="mt-4 text-center">
+                <p className="text-muted mb-0">
+                  {t('By registering you agree to the Chatr')}{' '}
+                  <Link to="#" className="text-primary">
+                    {t('Terms of Use')}
+                  </Link>
+                </p>
               </div>
             </Form>
           </div>
         </CardBody>
       </Card>
 
-      <Footer text="Don't have an account" linkText="Signup now" linkTo="/register" />
+      <Footer text="Already have an account" linkText="Signin" linkTo="/login" />
     </>
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
