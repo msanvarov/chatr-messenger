@@ -9,7 +9,6 @@ import ForgotPasswordPage from 'pages/forgot-password.page';
 // lazy loading pages
 const LoginPage = React.lazy(() => import('pages/login.page'));
 const RegisterPage = React.lazy(() => import('pages/register.page'));
-const LockScreenPage = React.lazy(() => import('pages/lock-screen.page'));
 const LogoutPage = React.lazy(() => import('pages/logout.page'));
 
 // handle auth and authorization
@@ -57,7 +56,6 @@ const publicRoutes = [
   { path: '/login', component: LoginPage },
   { path: '/register', component: RegisterPage },
   { path: '/forgot-password', component: ForgotPasswordPage },
-  { path: '/lock-screen', component: LockScreenPage },
   { path: '/logout', component: LogoutPage },
 ];
 
