@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
+import firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
+import 'firebase/storage';
+import * as serviceWorker from 'serviceWorker';
+import { Spinner } from 'reactstrap';
 import { ConnectedRouter } from 'connected-react-router';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
-
-import AppLayout from 'components/app-layout/app-layout.component';
 import configureStore from 'configure-store';
-import LandingPage from 'pages';
-import * as serviceWorker from './serviceWorker';
-import firebase from 'firebase/app';
-import 'firebase/auth';
-import 'firebase/firestore';
-import 'firebase/storage';
+import { AppRoute, publicRoutes, privateRoutes } from 'routes';
+import NonAuthLayout from 'components/non-auth-layout/non-auth-layout.component';
+import AuthLayout from 'components/app-layout/auth-layout.component';
 
 // firebase
 const firebaseConfig = {
@@ -49,15 +50,25 @@ const App: React.FC = () => (
     <ConnectedRouter history={history}>
       <ReactReduxFirebaseProvider {...reactReduxFirebaseProps} dispatch={store.dispatch}>
         <Router>
-          <Route
-            render={() => (
-              <AppLayout>
+          <Suspense fallback={<Spinner type="grow" color="primary" />}>
+            <Route
+              render={() => (
                 <Switch>
-                  <Route exact path="/" component={LandingPage} />
+                  {/* public routes */}
+                  {publicRoutes.map(({ path, component, isAuthProtected }, key) => (
+                    <AppRoute
+                      {...{ key, path, component, isAuthProtected }}
+                      layout={NonAuthLayout}
+                    />
+                  ))}
+                  {/* private routes */}
+                  {privateRoutes.map(({ path, component, isAuthProtected }, key) => (
+                    <AppRoute {...{ key, path, component, isAuthProtected }} layout={AuthLayout} />
+                  ))}
                 </Switch>
-              </AppLayout>
-            )}
-          />
+              )}
+            />
+          </Suspense>
         </Router>
       </ReactReduxFirebaseProvider>
     </ConnectedRouter>
