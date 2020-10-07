@@ -1,4 +1,4 @@
-export type ActiveTab = 'chat';
+export type ActiveTab = 'chat' | 'profile' | 'group' | 'contacts' | 'settings';
 
 export enum LayoutActionTypes {
   SET_ACTIVE_TAB = '@@layout/SET_ACTIVE_TAB',
