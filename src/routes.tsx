@@ -5,7 +5,10 @@ import { useSelector } from 'react-redux';
 import { IApplicationState } from 'store';
 
 // lazy loading pages
-const LandingPage = React.lazy(() => import('pages/login.page'));
+const LoginPage = React.lazy(() => import('pages/login.page'));
+const RegisterPage = React.lazy(() => import('pages/register.page'));
+const LockScreenPage = React.lazy(() => import('pages/lock-screen.page'));
+const LogoutPage = React.lazy(() => import('pages/logout.page'));
 
 // handle auth and authorization
 type AppRouteProps = {
@@ -42,10 +45,14 @@ const privateRoutes = [
     path: '/',
     exact: true,
     component: () => <Redirect to="/dashboard" />,
-    isAuthProtected: true,
   },
 ];
 
-const publicRoutes = [{ path: '/', component: LandingPage, isAuthProtected: false }];
+const publicRoutes = [
+  { path: '/login', component: LoginPage },
+  { path: '/register', component: RegisterPage },
+  { path: '/lock-screen', component: LockScreenPage },
+  { path: '/logout', component: LogoutPage },
+];
 
 export { privateRoutes, publicRoutes };

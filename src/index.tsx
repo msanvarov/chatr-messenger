@@ -58,15 +58,20 @@ const App: React.FC = () => (
               render={() => (
                 <Switch>
                   {/* public routes */}
-                  {publicRoutes.map(({ path, component, isAuthProtected }, key) => (
+                  {publicRoutes.map(({ path, component }, key) => (
                     <AppRoute
-                      {...{ key, path, component, isAuthProtected }}
+                      {...{ key, path, component }}
+                      isAuthProtected={false}
                       layout={NonAuthLayout}
                     />
                   ))}
                   {/* private routes */}
-                  {privateRoutes.map(({ path, component, isAuthProtected }, key) => (
-                    <AppRoute {...{ key, path, component, isAuthProtected }} layout={AuthLayout} />
+                  {privateRoutes.map(({ path, component }, key) => (
+                    <AppRoute
+                      {...{ key, path, component }}
+                      layout={AuthLayout}
+                      isAuthProtected={true}
+                    />
                   ))}
                 </Switch>
               )}
