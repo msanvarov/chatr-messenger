@@ -15,8 +15,7 @@ import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
 import configureStore from 'configure-store';
 import { AppRoute, publicRoutes, privateRoutes } from 'routes';
-import NonAuthLayout from 'components/non-auth-layout/non-auth-layout.component';
-import AuthLayout from 'components/app-layout/auth-layout.component';
+import AppLayout from 'components/app-layout/app-layout.component';
 
 import 'styles/base.scss';
 
@@ -59,17 +58,13 @@ const App: React.FC = () => (
                 <Switch>
                   {/* public routes */}
                   {publicRoutes.map(({ path, component }, key) => (
-                    <AppRoute
-                      {...{ key, path, component }}
-                      isAuthProtected={false}
-                      layout={NonAuthLayout}
-                    />
+                    <AppRoute {...{ key, path, component }} isAuthProtected={false} />
                   ))}
                   {/* private routes */}
                   {privateRoutes.map(({ path, component }, key) => (
                     <AppRoute
                       {...{ key, path, component }}
-                      layout={AuthLayout}
+                      layout={AppLayout}
                       isAuthProtected={true}
                     />
                   ))}

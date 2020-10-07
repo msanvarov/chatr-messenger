@@ -3,6 +3,8 @@ import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 import { IApplicationState } from 'store';
+import { DashboardPage } from 'pages';
+import ForgotPasswordPage from 'pages/forgot-password.page';
 
 // lazy loading pages
 const LoginPage = React.lazy(() => import('pages/login.page'));
@@ -13,7 +15,7 @@ const LogoutPage = React.lazy(() => import('pages/logout.page'));
 // handle auth and authorization
 type AppRouteProps = {
   isAuthProtected: boolean;
-  layout: React.ElementType;
+  layout?: React.ElementType;
   component: React.ElementType;
 } & RouteProps;
 export const AppRoute: React.FC<AppRouteProps> = ({
@@ -30,10 +32,12 @@ export const AppRoute: React.FC<AppRouteProps> = ({
         if (isAuthProtected && isLoaded(auth) && isEmpty(auth)) {
           return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
         }
-        return (
+        return Layout ? (
           <Layout>
             <Component {...props} />
           </Layout>
+        ) : (
+          <Component {...props} />
         );
       }}
     />
@@ -41,6 +45,7 @@ export const AppRoute: React.FC<AppRouteProps> = ({
 };
 
 const privateRoutes = [
+  { path: '/dashboard', component: DashboardPage },
   {
     path: '/',
     exact: true,
@@ -51,6 +56,7 @@ const privateRoutes = [
 const publicRoutes = [
   { path: '/login', component: LoginPage },
   { path: '/register', component: RegisterPage },
+  { path: '/forgot-password', component: ForgotPasswordPage },
   { path: '/lock-screen', component: LockScreenPage },
   { path: '/logout', component: LogoutPage },
 ];
