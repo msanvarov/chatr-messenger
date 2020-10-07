@@ -5,6 +5,7 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 import * as serviceWorker from 'serviceWorker';
+import 'i18n';
 import { Spinner } from 'reactstrap';
 import { ConnectedRouter } from 'connected-react-router';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -16,6 +17,8 @@ import configureStore from 'configure-store';
 import { AppRoute, publicRoutes, privateRoutes } from 'routes';
 import NonAuthLayout from 'components/non-auth-layout/non-auth-layout.component';
 import AuthLayout from 'components/app-layout/auth-layout.component';
+
+import 'styles/base.scss';
 
 // firebase
 const firebaseConfig = {
