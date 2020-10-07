@@ -1,7 +1,11 @@
 {
-  "name": "the-shoppies",
+  "name": "chatr-messaging",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "email": "msalanvarov@gmail.com",
+    "name": "Sal Anvarov"
+  },
   "scripts": {
     "start": "SASS_PATH=node_modules:src react-scripts start",
     "build": "SASS_PATH=node_modules:src react-scripts build",
@@ -11,10 +15,12 @@
     "prettier": "prettier --list-different '**/*.{ts,tsx,js,jsx,json,md}'"
   },
   "dependencies": {
+    "@types/reactstrap": "^8.5.1",
     "axios": "^0.20.0",
     "bootstrap": "^4.5.2",
     "connected-react-router": "^6.8.0",
     "firebase": "^7.22.1",
+    "formik": "^2.1.7",
     "history": "^4.7.2",
     "lodash": "4.17.20",
     "node-sass": "4.14.1",
