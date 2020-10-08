@@ -173,7 +173,7 @@ const LeftSidebarMenu = () => {
                     toggleTab('settings');
                   }}
                 >
-                  Setting <i className="ri-settings-3-line float-right text-muted"></i>
+                  Settings <i className="ri-settings-3-line float-right text-muted"></i>
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem href="/logout">
@@ -260,11 +260,11 @@ const LeftSidebarMenu = () => {
                     toggleTab('settings');
                   }}
                 >
-                  Setting <i className="ri-settings-3-line float-right text-muted"></i>
+                  Preferences <i className="ri-settings-3-line float-right text-muted"></i>
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem href="/logout">
-                  Log out <i className="ri-logout-circle-r-line float-right text-muted"></i>
+                  Logout <i className="ri-logout-circle-r-line float-right text-muted"></i>
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
