@@ -28,7 +28,7 @@ import Header from 'components/auth/header/header.component';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Required'),
+  password: Yup.string().min(8, 'Too Short!').max(50, 'Too Long!').required('Required'),
 });
 
 const LoginPage = () => {
@@ -36,6 +36,7 @@ const LoginPage = () => {
   const history = useHistory();
   const { t } = useTranslation();
   const [formErrors, setFormErrors] = useState<string>();
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const {
     handleChange,
     handleBlur,
@@ -121,7 +122,7 @@ const LoginPage = () => {
                             </span>
                           </InputGroupAddon>
                           <Input
-                            type="password"
+                            type={passwordVisible ? 'text' : 'password'}
                             id="password"
                             name="password"
                             className="form-control bg-soft-light border-light"
@@ -131,6 +132,18 @@ const LoginPage = () => {
                             value={values.password}
                             invalid={touched.password && errors.password ? true : false}
                           />
+                          <InputGroupAddon
+                            addonType="append"
+                            onClick={() => setPasswordVisible(!passwordVisible)}
+                          >
+                            <span className="input-group-text border-light text-muted">
+                              {passwordVisible ? (
+                                <i className="ri-eye-off-line"></i>
+                              ) : (
+                                <i className="ri-eye-line"></i>
+                              )}
+                            </span>
+                          </InputGroupAddon>
                           {touched.password && errors.password ? (
                             <FormFeedback type="invalid">{errors.password}</FormFeedback>
                           ) : null}

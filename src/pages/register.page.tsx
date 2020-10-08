@@ -1,5 +1,5 @@
 import React, { memo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Gravatar from 'gravatar';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
@@ -25,10 +25,18 @@ import { Helmet } from 'react-helmet';
 import Footer from 'components/auth/footer/footer.component';
 import Header from 'components/auth/header/header.component';
 
+const RegisterSchema = Yup.object().shape({
+  name: Yup.string().required('Required'),
+  email: Yup.string().email('Enter proper email').required('Required'),
+  password: Yup.string().min(8, 'Too Short!').max(50, 'Too Long!').required('Required'),
+});
+
 const RegisterPage = () => {
   const firebase = useFirebase();
+  const history = useHistory();
   const { t } = useTranslation();
   const [formError, setFormError] = useState<string>();
+  const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const [finishedRegistration, setFinishedRegistration] = useState<boolean>(false);
   // validation
   const { handleChange, handleBlur, handleSubmit, errors, touched, values } = useFormik({
@@ -37,18 +45,13 @@ const RegisterPage = () => {
       email: '',
       password: '',
     },
-    validationSchema: Yup.object({
-      name: Yup.string().required('Required'),
-      email: Yup.string().email('Enter proper email').required('Required'),
-      password: Yup.string().required('Required'),
-    }),
+    validationSchema: RegisterSchema,
     onSubmit: async ({ name, email, password }) => {
       try {
         await firebase.createUser(
           { email, password },
           {
             email,
-            name,
           },
         );
 
@@ -65,6 +68,7 @@ const RegisterPage = () => {
           true,
         );
         setFinishedRegistration(true);
+        history.push('/dashboard');
       } catch (error) {
         setFormError((error as Error).message);
       }
@@ -148,7 +152,7 @@ const RegisterPage = () => {
                             </span>
                           </InputGroupAddon>
                           <Input
-                            type="password"
+                            type={passwordVisible ? 'text' : 'password'}
                             id="password"
                             name="password"
                             className="form-control bg-soft-light border-light"
@@ -158,6 +162,18 @@ const RegisterPage = () => {
                             value={values.password}
                             invalid={touched.password && errors.password ? true : false}
                           />
+                          <InputGroupAddon
+                            addonType="append"
+                            onClick={() => setPasswordVisible(!passwordVisible)}
+                          >
+                            <span className="input-group-text border-light text-muted">
+                              {passwordVisible ? (
+                                <i className="ri-eye-off-line"></i>
+                              ) : (
+                                <i className="ri-eye-line"></i>
+                              )}
+                            </span>
+                          </InputGroupAddon>
                           {touched.password && errors.password ? (
                             <FormFeedback type="invalid">{errors.password}</FormFeedback>
                           ) : null}
