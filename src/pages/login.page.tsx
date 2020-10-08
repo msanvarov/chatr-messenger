@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import {
   Card,
   CardBody,
@@ -125,7 +125,7 @@ const LoginPage = () => {
                             id="password"
                             name="password"
                             className="form-control bg-soft-light border-light"
-                            placeholder="Enter Password"
+                            placeholder="Enter password"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.password}
@@ -174,4 +174,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default memo(LoginPage);

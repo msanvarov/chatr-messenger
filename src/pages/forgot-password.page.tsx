@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import {
   Container,
@@ -56,13 +56,9 @@ const ForgotPasswordPage = () => {
                 <CardBody className="p-4">
                   <div className="p-3">
                     {formError && <Alert variant="danger">{formError}</Alert>}
-                    {passwordReset ? (
+                    {passwordReset && (
                       <Alert variant="success" className="text-center mb-4">
                         {t('Password reset email has been successfully sent.')}
-                      </Alert>
-                    ) : (
-                      <Alert variant="info" className="text-center mb-4 alert-info">
-                        {t('Enter your Email and instructions will be sent to you')}!
                       </Alert>
                     )}
                     <Form onSubmit={handleSubmit}>
@@ -115,4 +111,4 @@ const ForgotPasswordPage = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default memo(ForgotPasswordPage);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Gravatar from 'gravatar';
 import { useFormik } from 'formik';
@@ -33,29 +33,29 @@ const RegisterPage = () => {
   // validation
   const { handleChange, handleBlur, handleSubmit, errors, touched, values } = useFormik({
     initialValues: {
-      username: '',
+      name: '',
       email: '',
       password: '',
     },
     validationSchema: Yup.object({
-      username: Yup.string().required('Required'),
+      name: Yup.string().required('Required'),
       email: Yup.string().email('Enter proper email').required('Required'),
       password: Yup.string().required('Required'),
     }),
-    onSubmit: async ({ username, email, password }) => {
+    onSubmit: async ({ name, email, password }) => {
       try {
         await firebase.createUser(
           { email, password },
           {
             email,
-            username,
+            name,
           },
         );
 
         // firebase set profile settings
         firebase.updateAuth(
           {
-            displayName: username,
+            displayName: name,
             photoURL: Gravatar.url(email, {
               protocol: 'https',
               s: '100',
@@ -90,6 +90,31 @@ const RegisterPage = () => {
                   <div className="p-3">
                     <Form onSubmit={handleSubmit}>
                       <FormGroup>
+                        <Label>{t('Name')}</Label>
+                        <InputGroup className="mb-3 bg-soft-light input-group-lg rounded-lg">
+                          <InputGroupAddon addonType="prepend">
+                            <span className="input-group-text border-light text-muted">
+                              <i className="ri-user-2-line"></i>
+                            </span>
+                          </InputGroupAddon>
+                          <Input
+                            type="text"
+                            id="name"
+                            name="name"
+                            className="form-control bg-soft-light border-light"
+                            placeholder="Enter name"
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            value={values.name}
+                            invalid={touched.name && errors.name ? true : false}
+                          />
+                          {touched.name && errors.name ? (
+                            <FormFeedback type="invalid">{errors.name}</FormFeedback>
+                          ) : null}
+                        </InputGroup>
+                      </FormGroup>
+
+                      <FormGroup>
                         <Label>{t('Email')}</Label>
                         <InputGroup className="mb-3 bg-soft-light input-group-lg rounded-lg">
                           <InputGroupAddon addonType="prepend">
@@ -114,31 +139,6 @@ const RegisterPage = () => {
                         </InputGroup>
                       </FormGroup>
 
-                      <FormGroup>
-                        <Label>{t('Username')}</Label>
-                        <InputGroup className="mb-3 bg-soft-light input-group-lg rounded-lg">
-                          <InputGroupAddon addonType="prepend">
-                            <span className="input-group-text border-light text-muted">
-                              <i className="ri-user-2-line"></i>
-                            </span>
-                          </InputGroupAddon>
-                          <Input
-                            type="text"
-                            id="username"
-                            name="username"
-                            className="form-control bg-soft-light border-light"
-                            placeholder="Enter Username"
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            value={values.username}
-                            invalid={touched.username && errors.username ? true : false}
-                          />
-                          {touched.username && errors.username ? (
-                            <FormFeedback type="invalid">{errors.username}</FormFeedback>
-                          ) : null}
-                        </InputGroup>
-                      </FormGroup>
-
                       <FormGroup className="mb-4">
                         <Label>{t('Password')}</Label>
                         <InputGroup className="mb-3 bg-soft-light input-group-lg rounded-lg">
@@ -152,7 +152,7 @@ const RegisterPage = () => {
                             id="password"
                             name="password"
                             className="form-control bg-soft-light border-light"
-                            placeholder="Enter Password"
+                            placeholder="Enter password"
                             onChange={handleChange}
                             onBlur={handleBlur}
                             value={values.password}
@@ -197,4 +197,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default memo(RegisterPage);
