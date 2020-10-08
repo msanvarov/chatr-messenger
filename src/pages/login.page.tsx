@@ -69,6 +69,15 @@ const LoginPage = () => {
       }
     },
   });
+  const loginWithGoogle = async () => {
+    try {
+      await firebase.login({ provider: 'google', type: 'popup' });
+      history.push('/dashboard');
+    } catch (error) {
+      setFormErrors((error as Error).message);
+    }
+  };
+
   return (
     <>
       <Helmet title="Login | Chatr - Messaging Platform" />
@@ -174,6 +183,18 @@ const LoginPage = () => {
                         </Button>
                       </div>
                     </Form>
+                    <div className="mt-2">
+                      <Button
+                        outline
+                        onClick={loginWithGoogle}
+                        block
+                        color="secondary"
+                        className="waves-effect waves-light"
+                        type="submit"
+                      >
+                        {t('Sign in with Google')}
+                      </Button>
+                    </div>
                   </div>
                 </CardBody>
               </Card>
