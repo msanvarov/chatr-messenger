@@ -32,13 +32,14 @@ const ForgotPasswordPage = () => {
   const [passwordReset, setPasswordReset] = useState<boolean>(false);
   const firebase = useFirebase();
   const { t } = useTranslation();
-  const { handleChange, handleBlur, handleSubmit, errors, touched, values } = useFormik({
+  const { handleChange, handleBlur, handleSubmit, errors, touched, values, resetForm } = useFormik({
     validationSchema: ForgotPasswordSchema,
     initialValues: { email: '' },
     onSubmit: async ({ email }) => {
       try {
         await firebase.resetPassword(email);
         setPasswordReset(true);
+        resetForm();
       } catch (error) {
         setFormError(error);
       }
