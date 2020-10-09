@@ -19,9 +19,9 @@ import {
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
 import * as Yup from 'yup';
-import Header from 'components/auth/header/header.component';
+import Header from 'components/auth/header.component';
 import { useFirebase } from 'react-redux-firebase';
-import Footer from 'components/auth/footer/footer.component';
+import Footer from 'components/auth/footer.component';
 
 const ForgotPasswordSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),

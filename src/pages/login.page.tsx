@@ -23,8 +23,8 @@ import * as Yup from 'yup';
 import { useFirebase } from 'react-redux-firebase';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import Footer from 'components/auth/footer/footer.component';
-import Header from 'components/auth/header/header.component';
+import Footer from 'components/auth/footer.component';
+import Header from 'components/auth/header.component';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),

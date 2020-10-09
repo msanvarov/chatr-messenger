@@ -1,9 +1,11 @@
 import { Reducer } from 'redux';
 import { ILayoutState, LayoutActionTypes } from './types';
 
+// TODO refactor chatRecipient to be dynamic based on the last message sent
 export const startingState: ILayoutState = {
   activeTab: 'chat',
   userSidebar: false,
+  // determines which person to open the chat convo with on startup
   chatRecipient: 'Sal Anvarov',
 };
 

@@ -3,9 +3,9 @@ import ReactDOM from 'react-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/database';
 import 'firebase/storage';
 import * as serviceWorker from 'serviceWorker';
-import 'i18n';
 import { Spinner } from 'reactstrap';
 import { ConnectedRouter } from 'connected-react-router';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
@@ -33,6 +33,8 @@ const firebaseConfig = {
 
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
+  firebase.firestore();
+  firebase.analytics();
 }
 
 const history = createBrowserHistory();

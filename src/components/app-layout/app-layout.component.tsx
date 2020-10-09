@@ -1,4 +1,4 @@
-import LeftSidebarMenu from 'components/left-sidebar-menu/left-sidebar-menu.component';
+import LeftSidebarMenu from 'components/menus/left-sidebar-menu.component';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { helmet } from 'utils/helmet';
