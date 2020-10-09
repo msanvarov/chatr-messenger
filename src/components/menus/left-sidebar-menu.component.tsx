@@ -222,7 +222,7 @@ const LeftSidebarMenu = () => {
                 </DropdownItem>
 
                 <DropdownItem
-                  onClick={() => changeLanguageAction('gr')}
+                  onClick={() => changeLanguageAction('rs')}
                   active={language === 'Russian'}
                 >
                   <img src={RussiaFlagJPG} alt="user" className="mr-1" height="12" />{' '}
@@ -240,7 +240,7 @@ const LeftSidebarMenu = () => {
                 {isLoaded(profile) ? (
                   <img
                     src={profile.photoURL}
-                    alt="chatvia"
+                    alt="profile"
                     className="profile-user rounded-circle"
                   />
                 ) : (
