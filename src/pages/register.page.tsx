@@ -22,8 +22,8 @@ import {
 import { useFirebase } from 'react-redux-firebase';
 import { useTranslation } from 'react-i18next';
 import { Helmet } from 'react-helmet';
-import Footer from 'components/auth/footer/footer.component';
-import Header from 'components/auth/header/header.component';
+import Footer from 'components/auth/footer.component';
+import Header from 'components/auth/header.component';
 
 const RegisterSchema = Yup.object().shape({
   name: Yup.string().required('Required'),
@@ -48,7 +48,7 @@ const RegisterPage = () => {
     validationSchema: RegisterSchema,
     onSubmit: async ({ name, email, password }) => {
       try {
-        await firebase.createUser(
+        const { uid } = await firebase.createUser(
           { email, password },
           {
             email,
@@ -67,6 +67,8 @@ const RegisterPage = () => {
           },
           true,
         );
+        // set uid in profile
+        firebase.updateProfile({ uid });
         setFinishedRegistration(true);
         history.push('/dashboard');
       } catch (error) {

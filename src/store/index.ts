@@ -6,15 +6,19 @@ import { firestoreReducer } from 'redux-firestore';
 
 import { ILayoutState, layoutReducer } from './layout';
 
-interface Profile {
+export interface IProfile {
+  uid: string;
   email: string;
   photoURL: string;
   displayName: string;
+  description?: string;
+  status?: string;
+  location?: string;
 }
 
 // Top-level state
 export interface IApplicationState {
-  firebase: FirebaseReducer.Reducer<Profile>;
+  firebase: FirebaseReducer.Reducer<IProfile>;
   firestore: FirestoreReducer.Reducer;
   layout: ILayoutState;
   router: RouterState;
