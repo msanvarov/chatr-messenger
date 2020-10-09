@@ -3,13 +3,13 @@ import { Redirect, Route, RouteProps } from 'react-router-dom';
 import { isEmpty, isLoaded } from 'react-redux-firebase';
 import { useSelector } from 'react-redux';
 import { IApplicationState } from 'store';
-import { DashboardPage } from 'pages';
-import ForgotPasswordPage from 'pages/forgot-password.page';
 
 // lazy loading pages
+const DashboardPage = React.lazy(() => import('pages/dashboard.page'));
 const LoginPage = React.lazy(() => import('pages/login.page'));
 const RegisterPage = React.lazy(() => import('pages/register.page'));
 const LogoutPage = React.lazy(() => import('pages/logout.page'));
+const ForgotPasswordPage = React.lazy(() => import('pages/forgot-password.page'));
 
 // handle auth and authorization
 type AppRouteProps = {
@@ -17,6 +17,7 @@ type AppRouteProps = {
   layout?: React.ElementType;
   component: React.ElementType;
 } & RouteProps;
+
 export const AppRoute: React.FC<AppRouteProps> = ({
   component: Component,
   layout: Layout,
