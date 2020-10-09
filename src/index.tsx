@@ -2,6 +2,7 @@ import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import firebase from 'firebase/app';
 import 'firebase/auth';
+import 'firebase/analytics';
 import 'firebase/firestore';
 import 'firebase/database';
 import 'firebase/storage';
