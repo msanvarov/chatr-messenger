@@ -1,7 +1,7 @@
 import React, { memo } from 'react';
 import { Helmet } from 'react-helmet';
 // import { useFirebase } from 'react-redux-firebase';
-import ChatLeftSidebarMenu from 'components/menus/chat-left-sidebar-menu.component';
+import TabsMenu from 'components/menus/tabs-menu.component';
 import { useSelector } from 'react-redux';
 import { IApplicationState } from 'store';
 import { isLoaded } from 'react-redux-firebase';
@@ -35,7 +35,7 @@ export const users = [
       },
       {
         id: 3,
-        message: "how's going on your project?",
+        message: 'how\'s going on your project?',
         time: '01:05',
         userType: 'receiver',
         isImageMessage: false,
@@ -222,7 +222,7 @@ export const users = [
       },
       {
         id: 5,
-        message: "Wow that's great",
+        message: 'Wow that\'s great',
         time: '10:06',
         userType: 'sender',
         isImageMessage: false,
@@ -582,7 +582,7 @@ export const users = [
       },
       {
         id: 2,
-        message: "I've finished it! See you so",
+        message: 'I\'ve finished it! See you so',
         time: '12:05',
         userType: 'receiver',
         isImageMessage: true,
@@ -620,7 +620,7 @@ export const users = [
       },
       {
         id: 3,
-        message: "Wow that's great",
+        message: 'Wow that\'s great',
         time: '12:00',
         userType: 'sender',
         isImageMessage: false,
@@ -639,7 +639,7 @@ const Dashboard = () => {
       <Helmet title="Dashboard | Chatr - Messaging Platform" />
       {isLoaded(profile) && (
         <>
-          <ChatLeftSidebarMenu chat={users} {...{ profile }} />
+          <TabsMenu chat={users} {...{ profile }} />
         </>
       )}
     </>

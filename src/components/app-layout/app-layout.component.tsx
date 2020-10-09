@@ -1,4 +1,4 @@
-import LeftSidebarMenu from 'components/menus/left-sidebar-menu.component';
+import LeftPaneMenu from 'components/menus/left-pane-menu.component';
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { helmet } from 'utils/helmet';
@@ -9,7 +9,7 @@ const AppLayout: React.FC = ({ children }) => {
       <Helmet {...helmet} />
 
       <div className="layout-wrapper d-lg-flex">
-        <LeftSidebarMenu />
+        <LeftPaneMenu />
         {children}
       </div>
     </>

@@ -14,7 +14,7 @@ type ChatLeftSidebarProps = {
   profile: FirebaseReducer.Profile<IProfile>;
 };
 
-const ChatLeftSidebar: React.FC<ChatLeftSidebarProps> = ({ profile }) => {
+const TabsMenu: React.FC<ChatLeftSidebarProps> = ({ profile }) => {
   const activeTab = useSelector((state: IApplicationState) => state.layout.activeTab);
   return (
     <div className="chat-leftsidebar mr-lg-1">
@@ -36,6 +36,4 @@ const ChatLeftSidebar: React.FC<ChatLeftSidebarProps> = ({ profile }) => {
   );
 };
 
-export default ChatLeftSidebar;
-
-// [{id: 0, name: "Patrick", photoURL }]
+export default TabsMenu;

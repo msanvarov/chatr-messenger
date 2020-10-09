@@ -31,7 +31,7 @@ type SupportedLanguages = {
   it: 'Italian';
 };
 
-const LeftSidebarMenu = () => {
+const LeftPaneMenu = () => {
   const profile = useSelector((state: IApplicationState) => state.firebase.profile);
   const activeTab = useSelector((state: IApplicationState) => state.layout.activeTab);
   const dispatch = useDispatch();
@@ -275,4 +275,4 @@ const LeftSidebarMenu = () => {
   );
 };
 
-export default LeftSidebarMenu;
+export default LeftPaneMenu;
