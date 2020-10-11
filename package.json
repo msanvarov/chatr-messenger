@@ -33,6 +33,7 @@
     "react-dom": "16.13.1",
     "react-helmet": "6.1.0",
     "react-i18next": "^11.7.3",
+    "react-image-lightbox": "^5.1.1",
     "react-loader-spinner": "^3.1.14",
     "react-modal-video": "^1.2.5",
     "react-owl-carousel3": "^2.2.5",
