@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { FirebaseReducer } from 'react-redux-firebase';
 import { Dropdown, DropdownMenu, DropdownItem, DropdownToggle, Card } from 'reactstrap';
 import { IProfile } from 'store';
+import SimpleBar from 'simplebar-react';
 
 type ProfileTabProps = {
   profile: FirebaseReducer.Profile<IProfile>;
@@ -87,9 +88,10 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ profile }) => {
         </p>
       </div>
 
-      <div className="p-4 user-profile-desc">
+      <SimpleBar style={{ maxHeight: '100%' }} className="p-4 user-profile-desc">
         <div className="text-muted">
           <p className="mb-4">
+            {t('Description')}:{' '}
             {profile.description ? profile.description : t('No profile description set.')}
           </p>
         </div>
@@ -141,7 +143,7 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ profile }) => {
             </CustomCollapse>
           </Card>
         </div>
-      </div>
+      </SimpleBar>
     </>
   );
 };
