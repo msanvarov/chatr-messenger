@@ -30,7 +30,8 @@ type SettingsTabProps = {
 };
 
 const ProfileEditSchema = Yup.object().shape({
-  name: Yup.string().required('Required'),
+  name: Yup.string().min(2).required('Required'),
+  bio: Yup.string().min(2).max(255),
   location: Yup.string().required('Required'),
 });
 
@@ -48,22 +49,27 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ profile }) => {
   );
   const [showCollapsibleHelp, setShowCollapsibleHelp] = useState<boolean>(false);
   const [showProfileStatusDropdown, setShowProfileStatusDropdown] = useState<boolean>(false);
-  const [formErrors, setFormErrors] = useState<string>();
+  const [formError, setFormError] = useState<string>();
   const { handleChange, handleBlur, handleSubmit, errors, touched, values } = useFormik({
     validationSchema: ProfileEditSchema,
-    initialValues: { name: profile.displayName, location: profile.location || '' },
-    onSubmit: async ({ name, location }, actions) => {
+    initialValues: {
+      name: profile.displayName,
+      location: profile.location || '',
+      bio: profile.description || '',
+    },
+    onSubmit: async ({ name, location, bio }, actions) => {
       try {
-        firebase.updateProfile({ displayName: name, location });
+        firebase.updateProfile({ displayName: name, location, description: bio });
 
         actions.resetForm({
           values: {
             name,
             location,
+            bio,
           },
         });
       } catch (error) {
-        setFormErrors((error as Error).message);
+        setFormError((error as Error).message);
       }
     },
   });
@@ -172,7 +178,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ profile }) => {
               toggleCollapse={toggleCollapse1}
             >
               <Form onSubmit={handleSubmit}>
-                {formErrors && <Alert color="danger">{formErrors}</Alert>}
+                {formError && <Alert color="danger">{formError}</Alert>}
                 <div className="float-right">
                   <Button color="light" size="sm" type="submit">
                     <i className="ri-edit-fill mr-1 align-middle"></i> {t('Confirm')}
@@ -192,6 +198,22 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ profile }) => {
                   />
                   {touched.name && errors.name ? (
                     <FormFeedback type="invalid">{errors.name}</FormFeedback>
+                  ) : null}
+                </div>
+                <div className="mt-4">
+                  <p className="text-muted mb-1">{t('Bio')}</p>
+                  <Input
+                    type="textarea"
+                    id="bio"
+                    name="bio"
+                    className="mt-4 form-control bg-soft-light border-light"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.bio}
+                    invalid={touched.bio && errors.bio ? true : false}
+                  />
+                  {touched.bio && errors.bio ? (
+                    <FormFeedback type="invalid">{errors.bio}</FormFeedback>
                   ) : null}
                 </div>
                 <div className="mt-4">
