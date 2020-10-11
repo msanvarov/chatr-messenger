@@ -74,9 +74,9 @@ const ChatInput: React.FC<ChatInputProps> = ({ onCreateMessage }) => {
                       <DropdownToggle
                         id="emoji"
                         color="link"
-                        className="text-decoration-none font-size-16 btn-lg waves-effect"
+                        className="text-decoration-none font-size-16 btn-md waves-effect"
                       >
-                        <i className="ri-emotion-happy-line"></i>
+                        <i className="ri-emotion-laugh-line"></i>
                       </DropdownToggle>
                       <DropdownMenu className="dropdown-menu-lg-right">
                         <Picker native onSelect={addEmoji} />
@@ -89,7 +89,7 @@ const ChatInput: React.FC<ChatInputProps> = ({ onCreateMessage }) => {
                   <li className="list-inline-item input-file">
                     <Label
                       id="files"
-                      className="btn btn-link text-decoration-none font-size-16 btn-lg waves-effect"
+                      className="btn btn-link text-decoration-none font-size-16 btn-md waves-effect"
                     >
                       <i className="ri-attachment-line"></i>
                       <Input
@@ -103,24 +103,6 @@ const ChatInput: React.FC<ChatInputProps> = ({ onCreateMessage }) => {
                     </Label>
                     <UncontrolledTooltip target="files" placement="top">
                       Attached File
-                    </UncontrolledTooltip>
-                  </li>
-                  <li className="list-inline-item input-file">
-                    <Label
-                      id="images"
-                      className="mr-1 btn btn-link text-decoration-none font-size-16 btn-lg waves-effect"
-                    >
-                      <i className="ri-image-fill"></i>
-                      <Input
-                        onChange={(e) => console.log(e.target?.files && e.target.files[0].name)}
-                        accept="image/*"
-                        type="file"
-                        name="fileInput"
-                        size={60}
-                      />
-                    </Label>
-                    <UncontrolledTooltip target="images" placement="top">
-                      Images
                     </UncontrolledTooltip>
                   </li>
                   <li className="list-inline-item">
