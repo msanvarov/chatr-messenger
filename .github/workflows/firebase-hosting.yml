@@ -1,4 +1,4 @@
-name: Chatr Github Pages
+name: Chatr Firebase Hosting
 
 on:
   push:
@@ -33,7 +33,8 @@ jobs:
           REACT_APP_GIT_SHA: ${{ github.SHA }}
 
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        uses: w9jds/firebase-action@master
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          args: deploy --only hosting
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
