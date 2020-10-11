@@ -48,7 +48,7 @@ const RegisterPage = () => {
     validationSchema: RegisterSchema,
     onSubmit: async ({ name, email, password }) => {
       try {
-        const { uid } = await firebase.createUser(
+        await firebase.createUser(
           { email, password },
           {
             email,
@@ -67,8 +67,6 @@ const RegisterPage = () => {
           },
           true,
         );
-        // set uid in profile
-        firebase.updateProfile({ uid });
         setFinishedRegistration(true);
         history.push('/dashboard');
       } catch (error) {
