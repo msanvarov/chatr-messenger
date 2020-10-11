@@ -5,6 +5,7 @@ import { firebaseReducer, FirebaseReducer, FirestoreReducer } from 'react-redux-
 import { firestoreReducer } from 'redux-firestore';
 
 import { ILayoutState, layoutReducer } from './layout';
+import { chatReducer, IChatState } from './chat';
 
 export interface IProfile {
   uid: string;
@@ -21,6 +22,7 @@ export interface IApplicationState {
   firebase: FirebaseReducer.Reducer<IProfile>;
   firestore: FirestoreReducer.Reducer;
   layout: ILayoutState;
+  chat: IChatState;
   router: RouterState;
 }
 
@@ -29,6 +31,7 @@ export const createRootReducer = (history: History) => {
     firebase: firebaseReducer,
     firestore: firestoreReducer,
     layout: layoutReducer,
+    chat: chatReducer,
     router: connectRouter(history),
   });
 };
