@@ -1,11 +1,8 @@
-
-// 
+//
 // Sidemenu
-// 
+//
 
-
-
-.side-menu{
+.side-menu {
     min-width: 75px;
     max-width: 75px;
     height: 100vh;
@@ -13,7 +10,7 @@
     background-color: $sidebar-bg;
     display: flex;
     z-index: 9;
-    box-shadow: 0 2px 4px rgba(15,34,58,.12);
+    box-shadow: 0 2px 4px rgba(15, 34, 58, 0.12);
 
     @media (max-width: 991.98px) {
         position: fixed;
@@ -25,24 +22,22 @@
         border-top: 1px solid $border-color;
     }
 
-    .navbar-brand-box{
+    .navbar-brand-box {
         text-align: center;
-
 
         @media (max-width: 991.98px) {
             display: none;
         }
 
-        .logo{
+        .logo {
             line-height: 70px;
-            
         }
 
-        .logo-dark{
+        .logo-dark {
             display: $display-block;
         }
 
-        .logo-light{
+        .logo-light {
             display: $display-none;
         }
     }
@@ -54,16 +49,15 @@
     }
 }
 
-.side-menu-nav{
-
-    .nav-item{
+.side-menu-nav {
+    .nav-item {
         margin: 7px 0;
         @media (max-width: 991.98px) {
             flex-basis: 0;
             flex-grow: 1;
             margin: 5px 0;
         }
-        .nav-link{
+        .nav-link {
             text-align: center;
             font-size: 24px;
             color: $sidebar-menu-item-color;
@@ -74,7 +68,6 @@
             border-radius: 8px;
             padding: 0;
 
-
             @media (max-width: 991.98px) {
                 font-size: 20px;
                 width: 48px;
@@ -82,13 +75,13 @@
                 line-height: 48px;
             }
 
-            &.active{
+            &.active {
                 background-color: $sidebar-menu-item-active-bg;
                 color: $primary;
             }
         }
 
-        &.show>.nav-link{
+        &.show > .nav-link {
             background-color: $sidebar-menu-item-active-bg;
             color: $primary;
         }
@@ -101,6 +94,3 @@
         padding: 3px;
     }
 }
-
-
-

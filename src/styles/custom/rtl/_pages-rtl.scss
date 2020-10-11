@@ -1,26 +1,25 @@
-// 
+//
 // pages-rtl.scss
 //
 
 // side-menu
 
-.profile-user-dropdown{
-    .dropdown-menu{
+.profile-user-dropdown {
+    .dropdown-menu {
         right: auto !important;
 
         @media (max-width: 991.98px) {
             left: 0 !important;
         }
     }
-
 }
 
 // chat-leftsidebar
 
-.search-box{
-    .input-group-prepend{
-        .btn{
-            &.pr-1{
+.search-box {
+    .input-group-prepend {
+        .btn {
+            &.pr-1 {
                 padding-right: 1rem !important;
             }
         }
@@ -28,22 +27,22 @@
 }
 
 .chat-user-img {
-    .user-status{
+    .user-status {
         right: auto;
         left: 0;
     }
 }
 
-.chat-list{
-    li{
-        .unread-message{
+.chat-list {
+    li {
+        .unread-message {
             right: auto;
             left: 24px;
         }
 
-        &.typing{
-            .chat-user-message{
-                .dot{
+        &.typing {
+            .chat-user-message {
+                .dot {
                     margin-left: 0;
                     margin-right: -1px;
                 }
@@ -52,25 +51,24 @@
     }
 }
 
-
 // User chat
 
-.user-chat{
+.user-chat {
     @media (max-width: 991.98px) {
-        transform: translateX(-100%)
+        transform: translateX(-100%);
     }
 }
 
-.chat-conversation{
-    .chat-avatar{
+.chat-conversation {
+    .chat-avatar {
         margin-right: 0;
         margin-left: 16px;
     }
 
-    .conversation-list{
-        .ctext-wrap-content{
+    .conversation-list {
+        .ctext-wrap-content {
             border-radius: 8px 8px 0 8px;
-            &:before{
+            &:before {
                 border-left-color: transparent;
                 border-right-color: $primary;
                 left: auto;
@@ -78,34 +76,33 @@
             }
         }
 
-        .chat-time{
+        .chat-time {
             text-align: left;
         }
 
-        .message-img{
-            .message-img-link{
+        .message-img {
+            .message-img-link {
                 right: auto;
                 left: 10px;
             }
         }
-        
     }
 
-    .right{
-        .chat-avatar{
+    .right {
+        .chat-avatar {
             margin-left: 0;
             margin-right: 16px;
         }
 
-        .conversation-list{
+        .conversation-list {
             float: left;
             text-align: left;
 
-            .ctext-wrap{
-                .ctext-wrap-content{
+            .ctext-wrap {
+                .ctext-wrap-content {
                     border-radius: 8px 8px 8px 0;
-    
-                    &:before{
+
+                    &:before {
                         border-left-color: $chat-secondary-bg;
                         border-right-color: transparent;
                         right: auto;
@@ -115,21 +112,18 @@
             }
         }
 
-        .chat-time{
+        .chat-time {
             text-align: right;
         }
     }
-
 }
 
 .animate-typing {
-    .dot{
+    .dot {
         margin-right: 0;
         margin-left: -1px;
     }
 }
-
-
 
 // Settings
 
@@ -143,11 +137,8 @@
 // User profile details
 
 .user-profile-sidebar {
-
     @media (min-width: 992px) {
         border-left: 0;
         border-right: 4px solid $border-color;
     }
 }
-
-

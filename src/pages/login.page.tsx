@@ -35,7 +35,7 @@ const LoginPage = () => {
   const firebase = useFirebase();
   const history = useHistory();
   const { t } = useTranslation();
-  const [formErrors, setFormErrors] = useState<string>();
+  const [formError, setFormError] = useState<string>();
   const [passwordVisible, setPasswordVisible] = useState<boolean>(false);
   const {
     handleChange,
@@ -59,13 +59,13 @@ const LoginPage = () => {
         // login
         const { user } = await firebase.login({ email, password });
         if (!user?.emailVerified) {
-          setFormErrors(
+          setFormError(
             'Please verify your account by clicking the Chatr registration link in the email',
           );
         }
         history.push('/dashboard');
       } catch (error) {
-        setFormErrors((error as Error).message);
+        setFormError((error as Error).message);
       }
     },
   });
@@ -74,7 +74,7 @@ const LoginPage = () => {
       await firebase.login({ provider: 'google', type: 'popup' });
       history.push('/dashboard');
     } catch (error) {
-      setFormErrors((error as Error).message);
+      setFormError((error as Error).message);
     }
   };
 
@@ -89,7 +89,7 @@ const LoginPage = () => {
 
               <Card>
                 <CardBody className="p-4">
-                  {formErrors && <Alert color="danger">{formErrors}</Alert>}
+                  {formError && <Alert color="danger">{formError}</Alert>}
                   <div className="p-3">
                     <Form onSubmit={handleSubmit}>
                       <FormGroup>
