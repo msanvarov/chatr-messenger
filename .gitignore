@@ -218,4 +218,11 @@ sketch
 # Ignore all local history of files
 .history
 
+### Firebase ###
+**/.firebaserc
+
+### Firebase Patch ###
+.runtimeconfig.json
+.firebase/
+
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij+iml,react,node
