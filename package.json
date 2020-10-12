@@ -11,7 +11,7 @@
     "build": "dotenv react-scripts build",
     "stylelint": "stylelint 'src/**/*.scss' --syntax scss",
     "pages": "gh-pages -d build",
-    "deploy": "yarn build && firebase deploy",
+    "deploy": "SASS_PATH=node_modules:src yarn build && firebase deploy",
     "tsc": "tsc"
   },
   "dependencies": {
