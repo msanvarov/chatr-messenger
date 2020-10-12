@@ -16,7 +16,7 @@ $font-weight-medium: 500;
 $font-weight-semibold: 600;
 
 // Font Family
-$font-family-secondary: "Source Sans Pro", sans-serif;
+$font-family-secondary: "Open Sans", sans-serif;
 
 // Chat
 $chat-primary-bg: #7269ef;
@@ -289,7 +289,7 @@ $embed-responsive-aspect-ratios: join(((21 9), (16 9), (4 3), (1 1)), $embed-res
 // Font, line-height, and color for body text, headings, and more.
 
 // stylelint-disable value-keyword-case
-$font-family-sans-serif: "Source Sans Pro", sans-serif;
+$font-family-sans-serif: "Open Sans", sans-serif;
 $font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 $font-family-base: $font-family-sans-serif;
 // stylelint-enable value-keyword-case
