@@ -29,16 +29,18 @@ export const AppRoute: React.FC<AppRouteProps> = ({
     <Route
       {...rest}
       render={(props) => {
-        if (isAuthProtected && isLoaded(auth) && isEmpty(auth)) {
-          return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
-        }
-        return Layout ? (
-          <Layout>
+        if (isLoaded(auth)) {
+          if (isAuthProtected && isEmpty(auth)) {
+            return <Redirect to={{ pathname: '/login', state: { from: props.location } }} />;
+          }
+          return Layout ? (
+            <Layout>
+              <Component {...props} />
+            </Layout>
+          ) : (
             <Component {...props} />
-          </Layout>
-        ) : (
-          <Component {...props} />
-        );
+          );
+        }
       }}
     />
   );
