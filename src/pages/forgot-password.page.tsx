@@ -37,11 +37,12 @@ const ForgotPasswordPage = () => {
     initialValues: { email: '' },
     onSubmit: async ({ email }) => {
       try {
+        setFormError(undefined);
         await firebase.resetPassword(email);
         setPasswordReset(true);
         resetForm();
       } catch (error) {
-        setFormError(error);
+        setFormError((error as Error).message);
       }
     },
   });
@@ -56,7 +57,11 @@ const ForgotPasswordPage = () => {
               <Card>
                 <CardBody className="p-4">
                   <div className="p-3">
-                    {formError && <Alert variant="danger">{formError}</Alert>}
+                    {formError && (
+                      <Alert variant="danger" color="danger">
+                        {formError}
+                      </Alert>
+                    )}
                     {passwordReset && (
                       <Alert variant="success" className="text-center mb-4">
                         {t('Password reset email has been successfully sent.')}

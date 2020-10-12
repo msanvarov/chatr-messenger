@@ -50,6 +50,7 @@ const LoginPage = () => {
     initialValues: { email: '', password: '', remember: true },
     onSubmit: async ({ email, password, remember }) => {
       try {
+        setFormError(undefined);
         // checkbox persistance preference
         if (remember) {
           await firebase.auth().setPersistence(globalFirebase.auth.Auth.Persistence.LOCAL);
@@ -63,20 +64,12 @@ const LoginPage = () => {
             'Please verify your account by clicking the Chatr registration link in the email',
           );
         }
-        history.push('/dashboard');
+        history.push('/');
       } catch (error) {
         setFormError((error as Error).message);
       }
     },
   });
-  const loginWithGoogle = async () => {
-    try {
-      await firebase.login({ provider: 'google', type: 'popup' });
-      history.push('/dashboard');
-    } catch (error) {
-      setFormError((error as Error).message);
-    }
-  };
 
   return (
     <>
@@ -89,7 +82,11 @@ const LoginPage = () => {
 
               <Card>
                 <CardBody className="p-4">
-                  {formError && <Alert color="danger">{formError}</Alert>}
+                  {formError && (
+                    <Alert variant="danger" color="danger">
+                      {formError}
+                    </Alert>
+                  )}
                   <div className="p-3">
                     <Form onSubmit={handleSubmit}>
                       <FormGroup>
@@ -172,29 +169,15 @@ const LoginPage = () => {
                         </Label>
                       </div>
 
-                      <div>
-                        <Button
-                          color="primary"
-                          block
-                          className="waves-effect waves-light"
-                          type="submit"
-                        >
-                          {t('Sign in')}
-                        </Button>
-                      </div>
-                    </Form>
-                    <div className="mt-2">
                       <Button
-                        outline
-                        onClick={loginWithGoogle}
+                        color="primary"
                         block
-                        color="secondary"
                         className="waves-effect waves-light"
                         type="submit"
                       >
-                        {t('Sign in with Google')}
+                        {t('Sign in')}
                       </Button>
-                    </div>
+                    </Form>
                   </div>
                 </CardBody>
               </Card>

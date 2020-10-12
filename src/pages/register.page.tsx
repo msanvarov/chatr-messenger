@@ -48,6 +48,8 @@ const RegisterPage = () => {
     validationSchema: RegisterSchema,
     onSubmit: async ({ name, email, password }) => {
       try {
+        setFormError(undefined);
+
         await firebase.createUser(
           { email, password },
           {
@@ -68,7 +70,7 @@ const RegisterPage = () => {
           true,
         );
         setFinishedRegistration(true);
-        history.push('/dashboard');
+        history.push('/');
       } catch (error) {
         setFormError((error as Error).message);
       }
@@ -87,7 +89,11 @@ const RegisterPage = () => {
 
               <Card>
                 <CardBody className="p-4">
-                  {formError && <Alert color="danger">{formError}</Alert>}
+                  {formError && (
+                    <Alert variant="danger" color="danger">
+                      {formError}
+                    </Alert>
+                  )}
                   {finishedRegistration && (
                     <Alert variant="success">Thank You for registering with us!</Alert>
                   )}
