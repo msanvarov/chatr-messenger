@@ -41,12 +41,6 @@
             display: $display-none;
         }
     }
-
-    .theme-mode-icon {
-        &:before {
-            content: $theme-mode-icon;
-        }
-    }
 }
 
 .side-menu-nav {
