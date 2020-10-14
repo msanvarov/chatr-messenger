@@ -6,7 +6,8 @@ import classnames from 'classnames';
 import * as layoutActions from 'store/layout/actions';
 import i18n from 'i18n';
 import { Link } from 'react-router-dom';
-import LogoPNG from 'assets/logo-light.png';
+import LogoLight from 'assets/logo-light.png';
+import LogoDark from 'assets/logo-dark.png';
 import {
   Nav,
   NavItem,
@@ -60,13 +61,13 @@ const LeftPaneMenu = () => {
         <div className="navbar-brand-box">
           <Link to="/" className="logo logo-dark">
             <span className="logo-sm">
-              <img src={LogoPNG} alt="logo" height="30" />
+              <img src={LogoDark} alt="logo" height="30" />
             </span>
           </Link>
 
           <Link to="/" className="logo logo-light">
             <span className="logo-sm">
-              <img src={LogoPNG} alt="logo" height="30" />
+              <img src={LogoLight} alt="logo" height="30" />
             </span>
           </Link>
         </div>
@@ -230,6 +231,18 @@ const LeftPaneMenu = () => {
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
+            <NavItem>
+              <NavLink
+                id="light-dark"
+                target="_blank"
+                href="https://github.com/msanvarov/chatr-messaging"
+              >
+                <i className="ri-github-fill"></i>
+              </NavLink>
+              <UncontrolledTooltip target="light-dark" placement="right">
+                Github
+              </UncontrolledTooltip>
+            </NavItem>
             <Dropdown
               nav
               isOpen={showProfileDropdown}
@@ -260,7 +273,7 @@ const LeftPaneMenu = () => {
                     toggleTab('settings');
                   }}
                 >
-                  Preferences <i className="ri-settings-3-line float-right text-muted"></i>
+                  Settings <i className="ri-settings-3-line float-right text-muted"></i>
                 </DropdownItem>
                 <DropdownItem divider />
                 <DropdownItem href="/logout">
