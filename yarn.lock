@@ -1958,10 +1958,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/brainhubeu__react-carousel@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@types/brainhubeu__react-carousel/-/brainhubeu__react-carousel-2.0.0.tgz#b62df004e36e076df30fc9d83af3e3edcb0ba255"
-  integrity sha512-9PxDt5FAGwDpdP31iFCMzmmKJRkKkdZFwf9UDPeF2Ne3HrdVeTaQZ5gkJEr582UzwCfyRWst7S8885MEfatwWg==
+"@types/brainhubeu__react-carousel@2.0.2":
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/@types/brainhubeu__react-carousel/-/brainhubeu__react-carousel-2.0.2.tgz#f238255f3fecbab98d8a413303b4fa52aa924624"
+  integrity sha512-qmOfB2AcENaQWGI0SNgte8+4+sHMFtfaBpU0ks+YpbCIkKw0zow0pTLPVoFYvskPI7ieM+bYtO22XpkXUS7oUg==
   dependencies:
     "@types/react" "*"
 
