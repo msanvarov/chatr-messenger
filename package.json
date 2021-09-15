@@ -1,148 +1,78 @@
 {
-  "name": "chatr-messaging",
-  "version": "0.1.0",
-  "private": true,
-  "author": {
-    "email": "msalanvarov@gmail.com",
-    "name": "Sal Anvarov"
-  },
+  "name": "chatr",
+  "version": "0.0.0",
+  "license": "MIT",
   "scripts": {
-    "start": "dotenv react-scripts start",
-    "build": "dotenv react-scripts build",
-    "stylelint": "stylelint 'src/**/*.scss' --syntax scss",
-    "pages": "gh-pages -d build",
-    "deploy": "SASS_PATH=node_modules:src yarn build && firebase deploy",
-    "tsc": "tsc"
+    "start": "nx serve",
+    "build": "nx build",
+    "test": "nx test"
   },
+  "private": true,
   "dependencies": {
-    "axios": "^0.20.0",
-    "bootstrap": "^4.5.2",
-    "classnames": "^2.2.6",
-    "connected-react-router": "^6.8.0",
-    "emoji-mart": "^3.0.0",
-    "firebase": "^7.22.1",
-    "formik": "^2.1.7",
-    "gravatar": "^1.8.1",
-    "history": "^4.7.2",
-    "i18next": "^19.8.2",
-    "i18next-browser-languagedetector": "^6.0.1",
-    "lodash": "4.17.20",
+    "@reduxjs/toolkit": "^1.6.1",
+    "bootstrap": "4.6.0",
+    "connected-react-router": "^6.9.1",
+    "core-js": "^3.6.5",
+    "emoji-mart": "^3.0.1",
+    "firebase": "^9.0.0",
+    "formik": "^2.2.9",
+    "gravatar": "^1.8.2",
+    "history": "^5.0.1",
+    "i18next": "^20.5.0",
+    "i18next-browser-languagedetector": "^6.1.2",
     "moment": "^2.29.1",
-    "node-sass": "4.14.1",
-    "react": "16.13.1",
-    "react-alice-carousel": "^2.0.1",
-    "react-dom": "16.13.1",
-    "react-helmet": "6.1.0",
-    "react-i18next": "^11.7.3",
-    "react-image-lightbox": "^5.1.1",
-    "react-loader-spinner": "^3.1.14",
-    "react-modal-video": "^1.2.5",
-    "react-owl-carousel3": "^2.2.5",
-    "react-redux": "^7.2.1",
-    "react-redux-firebase": "^3.7.0",
-    "react-router": "^5.2.0",
-    "react-router-dom": "5.2.0",
-    "react-scripts": "^3.4.3",
-    "react-select": "^3.1.0",
-    "reactstrap": "^8.6.0",
-    "redux": "^4.0.5",
-    "redux-devtools-extension": "^2.13.8",
-    "redux-firestore": "^0.14.0",
-    "redux-saga": "^1.1.3",
-    "simplebar-react": "^2.3.0",
-    "typescript": "4.0.2",
-    "yup": "^0.29.3"
+    "react": "17.0.2",
+    "react-alice-carousel": "^2.5.1",
+    "react-dom": "17.0.2",
+    "react-helmet": "^6.1.0",
+    "react-i18next": "^11.11.4",
+    "react-image-lightbox": "^5.1.4",
+    "react-moment": "^1.1.1",
+    "react-redux": "^7.2.4",
+    "react-router-dom": "^5.2.1",
+    "reactstrap": "^8.9.0",
+    "regenerator-runtime": "0.13.7",
+    "simplebar-react": "^2.3.5",
+    "tslib": "^2.0.0",
+    "yup": "^0.32.9"
   },
   "devDependencies": {
-    "@types/brainhubeu__react-carousel": "^2.0.0",
-    "@types/classnames": "^2.2.10",
-    "@types/emoji-mart": "^3.0.2",
-    "@types/gravatar": "^1.8.1",
-    "@types/node": "14.10.1",
-    "@types/react": "16.9.35",
-    "@types/react-dom": "16.9.8",
-    "@types/react-helmet": "6.1.0",
-    "@types/react-loader-spinner": "^3.1.0",
-    "@types/react-redux": "^7.1.9",
-    "@types/react-router-dom": "5.1.5",
-    "@types/react-select": "^3.0.20",
-    "@types/reactstrap": "^8.5.1",
-    "@types/yup": "^0.29.7",
-    "dotenv-cli": "^4.0.0",
-    "gh-pages": "^3.1.0",
-    "husky": "4.3.0",
-    "immutable": "^4.0.0-rc.12",
-    "lint-staged": "10.3.0",
-    "prettier": "2.1.1",
-    "prop-types": "^15.7.2",
-    "seamless-immutable": "^7.1.4",
-    "stylelint": "13.7.1",
-    "stylelint-config-recommended": "3.0.0",
-    "tslint": "6.1.3",
-    "tslint-config-prettier": "1.18.0",
-    "tslint-react": "5.0.0"
-  },
-  "resolutions": {
-    "@types/react": "16.9.35"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "yarn tsc"
-    }
-  },
-  "lint-staged": {
-    "*.{ts,tsx,js,jsx,json,md}": [
-      "prettier --write"
-    ],
-    "*.{ts,tsx}": [
-      "tslint --fix"
-    ]
-  },
-  "stylelint": {
-    "extends": "stylelint-config-recommended",
-    "rules": {
-      "at-rule-no-unknown": [
-        true,
-        {
-          "ignoreAtRules": [
-            "if",
-            "else",
-            "mixin",
-            "each",
-            "include",
-            "function",
-            "return",
-            "warn",
-            "for"
-          ]
-        }
-      ],
-      "selector-pseudo-class-no-unknown": [
-        true,
-        {
-          "ignorePseudoClasses": [
-            "global"
-          ]
-        }
-      ]
-    }
-  },
-  "prettier": {
-    "singleQuote": true,
-    "trailingComma": "all",
-    "printWidth": 100
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "@nrwl/cli": "12.8.0",
+    "@nrwl/cypress": "12.8.0",
+    "@nrwl/eslint-plugin-nx": "12.8.0",
+    "@nrwl/jest": "12.8.0",
+    "@nrwl/linter": "12.8.0",
+    "@nrwl/node": "^12.8.0",
+    "@nrwl/nx-cloud": "latest",
+    "@nrwl/react": "12.8.0",
+    "@nrwl/tao": "12.8.0",
+    "@nrwl/web": "12.8.0",
+    "@nrwl/workspace": "12.8.0",
+    "@testing-library/react": "11.2.6",
+    "@testing-library/react-hooks": "7.0.1",
+    "@types/emoji-mart": "^3.0.5",
+    "@types/gravatar": "^1.8.3",
+    "@types/i18n": "^0.13.1",
+    "@types/jest": "26.0.24",
+    "@types/node": "14.14.33",
+    "@types/react": "17.0.3",
+    "@types/react-dom": "17.0.3",
+    "@types/react-helmet": "^6.1.2",
+    "@types/react-router-dom": "^5.1.8",
+    "@typescript-eslint/eslint-plugin": "~4.28.3",
+    "@typescript-eslint/parser": "~4.28.3",
+    "babel-jest": "27.0.6",
+    "cypress": "^8.3.0",
+    "eslint": "7.22.0",
+    "eslint-config-prettier": "8.1.0",
+    "eslint-plugin-cypress": "^2.10.3",
+    "eslint-plugin-import": "2.22.1",
+    "eslint-plugin-jsx-a11y": "6.4.1",
+    "eslint-plugin-react": "7.23.1",
+    "eslint-plugin-react-hooks": "4.2.0",
+    "jest": "27.0.3",
+    "prettier": "^2.3.1",
+    "ts-jest": "27.0.3",
+    "typescript": "~4.3.5"
   }
 }

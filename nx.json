@@ -1,0 +1,54 @@
+{
+  "npmScope": "chatr",
+  "affected": {
+    "defaultBase": "master"
+  },
+  "implicitDependencies": {
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    ".eslintrc.json": "*"
+  },
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/nx-cloud",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
+        "accessToken": "ODc0YmE5ZDktODNhMS00MjgwLWI4N2MtYjc2ZWQxNDc3NWVifHJlYWQtd3JpdGU="
+      }
+    }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
+  "projects": {
+    "chatr": {
+      "tags": []
+    },
+    "chatr-e2e": {
+      "tags": [],
+      "implicitDependencies": ["chatr"]
+    },
+    "hooks": {
+      "tags": []
+    },
+    "i18n": {
+      "tags": []
+    },
+    "mocks": {
+      "tags": []
+    },
+    "redux": {
+      "tags": []
+    },
+    "ui": {
+      "tags": []
+    }
+  }
+}

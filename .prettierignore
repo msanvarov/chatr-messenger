@@ -1,5 +1,4 @@
-build
-dist
-public
-node_modules
-.log
+# Add files here to ignore them from prettier formatting
+
+/dist
+/coverage
