@@ -27,6 +27,7 @@ export const usePosition = (settings = defaultSettings) => {
   };
 
   const onError = (positionError: GeolocationPositionError) => {
+    console.error(positionError.message);
     setError(positionError.message);
   };
 
