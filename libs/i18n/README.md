@@ -1,3 +1,10 @@
-# i18n
+# I18N Library
 
-Translation library
+This private library provides a set of translations for the chatr application.
+
+Languages currently available:
+
+- English (en)
+- German (de)
+- Italian (it)
+- Russian (ru)
