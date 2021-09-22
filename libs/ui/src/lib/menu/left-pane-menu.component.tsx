@@ -10,10 +10,10 @@ import {
   DropdownMenu,
   Spinner,
 } from 'reactstrap';
-import i18n from 'i18next';
 import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 
+import { i18n } from '@chatr/i18n';
 import {
   useAppSelector,
   useAppDispatch,
@@ -166,7 +166,7 @@ export const LeftPaneMenu: React.FC = () => {
                   className="profile-user rounded-circle"
                 />
               ) : (
-                <Spinner className="spinner" color="dark" />
+                <Spinner className="spinner" color="dark" type="grow" />
               )}
             </DropdownToggle>
             <DropdownMenu>
@@ -283,7 +283,7 @@ export const LeftPaneMenu: React.FC = () => {
                   className="profile-user rounded-circle"
                 />
               ) : (
-                <Spinner className="spinner" color="dark" />
+                <Spinner className="spinner" color="dark" type="grow" />
               )}
             </DropdownToggle>
             <DropdownMenu>

@@ -4,8 +4,7 @@
     "module": "commonjs",
     "outDir": "../../dist/out-tsc",
     "declaration": true,
-    "types": ["node"],
-    "resolveJsonModule": true
+    "types": ["node"]
   },
   "exclude": ["**/*.test.ts"],
   "include": ["**/*.ts"]
