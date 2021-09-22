@@ -1,3 +1,0 @@
-# Mocks
-
-Mocks for application

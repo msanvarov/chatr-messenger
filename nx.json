@@ -41,9 +41,6 @@
     "i18n": {
       "tags": []
     },
-    "mocks": {
-      "tags": []
-    },
     "redux": {
       "tags": []
     },
