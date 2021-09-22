@@ -2,24 +2,24 @@ import i18n from 'i18next';
 import detector from 'i18next-browser-languagedetector';
 import { initReactI18next } from 'react-i18next';
 
-import * as germanTranslation from './gr/translation.json';
-import * as italianTranslation from './it/translation.json';
-import * as russianTranslation from './ru/translation.json';
-import * as englishTranslation from './en/translation.json';
+import * as german from './de/translation.json';
+import * as italian from './it/translation.json';
+import * as russian from './ru/translation.json';
+import * as english from './en/translation.json';
 
 // translations
 const resources = {
-  gr: {
-    translation: germanTranslation,
+  en: {
+    translation: english,
+  },
+  de: {
+    translation: german,
   },
   it: {
-    translation: italianTranslation,
+    translation: italian,
   },
   ru: {
-    translation: russianTranslation,
-  },
-  eng: {
-    translation: englishTranslation,
+    translation: russian,
   },
 };
 

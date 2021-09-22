@@ -28,9 +28,9 @@ import GermanyFlagJpg from '../../assets/photos/flags/germany.jpg';
 import ItalyFlagJpg from '../../assets/photos/flags/italy.jpg';
 import RussiaFlagJpg from '../../assets/photos/flags/russia.jpg';
 
-type SupportedLanguages = {
-  eng: 'English';
-  gr: 'German';
+type Languages = {
+  en: 'English';
+  de: 'German';
   ru: 'Russian';
   it: 'Italian';
 };
@@ -39,7 +39,7 @@ export const LeftPaneMenu: React.FC = () => {
   const activeTab = useAppSelector((state: AppState) => state.layout.activeTab);
   const profile = useAppSelector((state: AppState) => state.user);
   const [language, setLanguage] =
-    useState<SupportedLanguages[keyof SupportedLanguages]>('English');
+    useState<Languages[keyof Languages]>('English');
   const dispatch = useAppDispatch();
   const [showProfileDropdown, setShowProfileDropdown] =
     useState<boolean>(false);
@@ -52,13 +52,13 @@ export const LeftPaneMenu: React.FC = () => {
   const toggleProfile = () => setShowProfileDropdown(!showProfileDropdown);
   const toggleTab = (tab: ActiveTab) => dispatch(setActiveTab(tab));
 
-  const changeLanguageAction = (lng: keyof SupportedLanguages) => {
+  const changeLanguageAction = (lng: keyof Languages) => {
     i18n.changeLanguage(lng);
 
-    if (lng === 'gr') setLanguage('German');
+    if (lng === 'de') setLanguage('German');
     else if (lng === 'ru') setLanguage('Russian');
     else if (lng === 'it') setLanguage('Italian');
-    else if (lng === 'eng') setLanguage('English');
+    else if (lng === 'en') setLanguage('English');
   };
   return (
     <div className="side-menu flex-lg-column mr-lg-1">
@@ -210,7 +210,7 @@ export const LeftPaneMenu: React.FC = () => {
             </DropdownToggle>
             <DropdownMenu>
               <DropdownItem
-                onClick={() => changeLanguageAction('eng')}
+                onClick={() => changeLanguageAction('en')}
                 active={language === 'English'}
               >
                 <img src={UsFlagJpg} alt="user" className="mr-1" height="12" />{' '}
@@ -218,7 +218,7 @@ export const LeftPaneMenu: React.FC = () => {
               </DropdownItem>
 
               <DropdownItem
-                onClick={() => changeLanguageAction('gr')}
+                onClick={() => changeLanguageAction('de')}
                 active={language === 'German'}
               >
                 <img
