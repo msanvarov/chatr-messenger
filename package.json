@@ -48,7 +48,7 @@
     "@nrwl/tao": "12.9.0",
     "@nrwl/web": "12.9.0",
     "@nrwl/workspace": "12.9.0",
-    "@testing-library/react": "11.2.6",
+    "@testing-library/react": "11.2.7",
     "@testing-library/react-hooks": "7.0.1",
     "@types/emoji-mart": "^3.0.5",
     "@types/gravatar": "^1.8.3",
