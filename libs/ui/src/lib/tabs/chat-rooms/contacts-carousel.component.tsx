@@ -1,4 +1,4 @@
-import * as _ from 'lodash';
+import _ from 'lodash';
 import AliceCarousel from 'react-alice-carousel';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';

@@ -5,6 +5,7 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
+    "resolveJsonModule": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
@@ -18,7 +19,6 @@
     "paths": {
       "@chatr/hooks": ["libs/hooks/src/index.ts"],
       "@chatr/i18n": ["libs/i18n/src/index.ts"],
-      "@chatr/mocks": ["libs/mocks/src/index.ts"],
       "@chatr/redux": ["libs/redux/src/index.ts"],
       "@chatr/ui": ["libs/ui/src/index.ts"]
     }

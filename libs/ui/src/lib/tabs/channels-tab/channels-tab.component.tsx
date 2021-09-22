@@ -24,7 +24,7 @@ import {
   DropdownMenu,
   DropdownItem,
 } from 'reactstrap';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import { Link } from 'react-router-dom';
 import * as Yup from 'yup';
 import SimpleBar from 'simplebar-react';

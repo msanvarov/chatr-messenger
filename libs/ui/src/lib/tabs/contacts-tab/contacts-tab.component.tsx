@@ -20,7 +20,7 @@ import {
   Spinner,
   Alert,
 } from 'reactstrap';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import SimpleBar from 'simplebar-react';
 import { useTranslation } from 'react-i18next';
 

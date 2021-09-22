@@ -11,7 +11,7 @@ import {
   Button,
   ModalFooter,
 } from 'reactstrap';
-import * as _ from 'lodash';
+import _ from 'lodash';
 import moment from 'moment';
 import ReactMoment from 'react-moment';
 import SimpleBar from 'simplebar-react';

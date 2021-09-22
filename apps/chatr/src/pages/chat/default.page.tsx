@@ -19,7 +19,7 @@ const DefaultChatPage: React.FC = () => {
   } = useAppSelector((state: AppState) => state.channel);
 
   if (channelsIsLoading || contactsIsLoading) {
-    return <Spinner className="spinner" color="dark" />;
+    return <Spinner className="spinner" color="dark" type="grow" />;
   }
 
   if (contactsError || channelsError) {

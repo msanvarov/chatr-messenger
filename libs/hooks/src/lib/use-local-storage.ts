@@ -2,21 +2,21 @@ import { useState, useEffect } from 'react';
 
 type TValue = string | boolean | Record<string, unknown>;
 
-export const useLocalStorage = (key: string, initialValue?: TValue) => {
+export const useLocalStorage = (key: string, startingValue?: TValue) => {
   const [state, setState] = useState(() => {
     try {
       const local = localStorage.getItem(key);
 
       if (typeof local !== 'string') {
-        localStorage.setItem(key, JSON.stringify(initialValue));
+        localStorage.setItem(key, JSON.stringify(startingValue));
 
-        return initialValue;
+        return startingValue;
       } else {
         return JSON.parse(local);
       }
     } catch {
-      console.log("Couldn't retrieve the local storage item");
-      return initialValue;
+      console.error("Couldn't retrieve the value from local storage.");
+      return startingValue;
     }
   });
 
@@ -29,5 +29,5 @@ export const useLocalStorage = (key: string, initialValue?: TValue) => {
     }
   }, [state, key]);
 
-  return [state, setState];
+  return [state, setState] as const;
 };

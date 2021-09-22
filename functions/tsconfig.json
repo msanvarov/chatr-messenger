@@ -3,7 +3,8 @@
     "module": "commonjs",
     "outDir": "lib",
     "sourceMap": true,
-    "target": "es2017"
+    "target": "es2017",
+    "esModuleInterop": true
   },
   "compileOnSave": true,
   "include": ["src"],
