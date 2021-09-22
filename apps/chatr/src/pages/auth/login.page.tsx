@@ -183,7 +183,7 @@ const LoginPage: React.FC = () => {
                           className="custom-control-label"
                           htmlFor="keepLoggedOn-check"
                         >
-                          {t('Stay logged on for longer')}
+                          {t('Stay signed in for longer')}
                         </Label>
                       </div>
 
