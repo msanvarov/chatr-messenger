@@ -50,7 +50,7 @@
     "@nrwl/workspace": "12.9.0",
     "@testing-library/react": "11.2.6",
     "@testing-library/react-hooks": "7.0.1",
-    "@types/emoji-mart": "^3.0.5",
+    "@types/emoji-mart": "3.0.8",
     "@types/gravatar": "^1.8.3",
     "@types/i18n": "^0.13.1",
     "@types/jest": "26.0.24",
