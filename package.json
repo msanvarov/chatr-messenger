@@ -54,7 +54,7 @@
     "@types/gravatar": "^1.8.3",
     "@types/i18n": "^0.13.1",
     "@types/jest": "26.0.24",
-    "@types/node": "14.14.33",
+    "@types/node": "14.17.34",
     "@types/react": "17.0.3",
     "@types/react-dom": "17.0.3",
     "@types/react-helmet": "^6.1.2",
