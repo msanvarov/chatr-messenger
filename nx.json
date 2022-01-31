@@ -14,8 +14,14 @@
     "default": {
       "runner": "@nrwl/nx-cloud",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"],
-        "accessToken": "ODc0YmE5ZDktODNhMS00MjgwLWI4N2MtYjc2ZWQxNDc3NWVifHJlYWQtd3JpdGU="
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e"
+        ],
+        "accessToken": "ODc0YmE5ZDktODNhMS00MjgwLWI4N2MtYjc2ZWQxNDc3NWVifHJlYWQtd3JpdGU=",
+        "parallel": 1
       }
     }
   },
@@ -27,25 +33,24 @@
       }
     ]
   },
-  "projects": {
-    "chatr": {
-      "tags": []
-    },
-    "chatr-e2e": {
-      "tags": [],
-      "implicitDependencies": ["chatr"]
-    },
-    "hooks": {
-      "tags": []
-    },
-    "i18n": {
-      "tags": []
-    },
-    "redux": {
-      "tags": []
-    },
-    "ui": {
-      "tags": []
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "scss",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "scss"
+      },
+      "library": {
+        "style": "scss",
+        "linter": "eslint"
+      }
     }
-  }
+  },
+  "defaultProject": "chatr"
 }
