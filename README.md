@@ -1,4 +1,4 @@
-<h1 align="center">Chatr Messanger</h1>
+<h1 align="center">Chatr Messenger</h1>
 
 <p align="center">
   <a href="https://react-chatr.web.app/login" target="blank"><img src="src/assets/logo-dark.png" width="320" alt="Chatr Logo" /></a>
@@ -47,7 +47,7 @@ This React Chat App is built with Nx, Redux, and Firebase. It provides real-time
 
 #### Manual Deployment without Docker
 
-- Clone the repo via `git clone https://github.com/msanvarov/chatr-messanger`.
+- Clone the repo via `git clone https://github.com/msanvarov/chatr-messenger`.
 
 - Download dependencies via `npm i` or `yarn`.
 
@@ -102,8 +102,8 @@ $ npm run test
 
 |                                                         Branches | Status |
 | ---------------------------------------------------------------: | :----- |
-|             [main](https://github.com/msanvarov/chatr-messanger) | ✅     |
-| [feat/\*](https://github.com/msanvarov/chatr-messanger/branches) | 🚧     |
+|             [main](https://github.com/msanvarov/chatr-messenger) | ✅     |
+| [feat/\*](https://github.com/msanvarov/chatr-messenger/branches) | 🚧     |
 
 <!-- > Remark: This template was employed to create a [Real World example app](https://github.com/gothinkster/realworld) on [Github](). -->
 
