@@ -1,5 +1,5 @@
 {
-  "name": "chat-app",
+  "name": "chatr",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -78,4 +78,3 @@
     "vitest": "^0.25.8"
   }
 }
-
