@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+      - stable-release
+      - feat/*
 
 jobs:
   deploy:
