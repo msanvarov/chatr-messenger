@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "chat-app",
+  "npmScope": "chatr",
   "tasksRunnerOptions": {
     "default": {
       "runner": "nx/tasks-runners/default",
@@ -55,5 +55,5 @@
       }
     }
   },
-  "defaultProject": "chat-app"
+  "defaultProject": "chatr"
 }

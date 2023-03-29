@@ -1,5 +1,5 @@
 {
-  "name": "chat-app",
+  "name": "chatr",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "./src",
   "projectType": "application",
@@ -9,7 +9,7 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/chat-app"
+        "outputPath": "dist/chatr"
       },
       "configurations": {
         "development": {
@@ -24,15 +24,15 @@
       "executor": "@nrwl/vite:dev-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "chat-app:build"
+        "buildTarget": "chatr:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "chat-app:build:development",
+          "buildTarget": "chatr:build:development",
           "hmr": true
         },
         "production": {
-          "buildTarget": "chat-app:build:production",
+          "buildTarget": "chatr:build:production",
           "hmr": false
         }
       }
@@ -41,23 +41,23 @@
       "executor": "@nrwl/vite:preview-server",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "chat-app:build"
+        "buildTarget": "chatr:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "chat-app:build:development"
+          "buildTarget": "chatr:build:development"
         },
         "production": {
-          "buildTarget": "chat-app:build:production"
+          "buildTarget": "chatr:build:production"
         }
       }
     },
     "test": {
       "executor": "@nrwl/vite:test",
-      "outputs": ["coverage/chat-app"],
+      "outputs": ["coverage/chatr"],
       "options": {
         "passWithNoTests": true,
-        "reportsDirectory": "coverage/chat-app"
+        "reportsDirectory": "coverage/chatr"
       }
     },
     "lint": {

@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 import viteTsConfigPaths from 'vite-tsconfig-paths';
 
 export default defineConfig({
-  cacheDir: './node_modules/.vite/chat-app',
+  cacheDir: './node_modules/.vite/chatr',
 
   server: {
     port: 4200,
