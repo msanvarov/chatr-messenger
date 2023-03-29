@@ -82,10 +82,10 @@ TODO
 
 ```bash
 # Start the docker container if it's not running
-$ docker start nest-rest-typeorm-api
+$ docker start chatr-messenger
 
 # unit tests
-$ docker exec -it nest-rest-typeorm-api npm run test
+$ docker exec -it chatr-messenger npm run test
 
 ```
 
