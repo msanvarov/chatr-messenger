@@ -1,4 +1,4 @@
-<h1 align="center">Chatr Messager</h1>
+<h1 align="center">Chatr Messanger</h1>
 
 <p align="center">
   <a href="https://react-chatr.web.app/login" target="blank"><img src="src/assets/logo-dark.png" width="320" alt="Chatr Logo" /></a>
