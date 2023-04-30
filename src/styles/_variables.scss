@@ -606,8 +606,7 @@ $aspect-ratios: (
 // scss-docs-start font-variables
 // stylelint-disable value-keyword-case
 $font-family-sans-serif: 'Roboto', sans-serif;
-$font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
-  'Liberation Mono', 'Courier New', monospace;
+$font-family-monospace: 'Roboto Mono', monospace;
 // stylelint-enable value-keyword-case
 $font-family-base: $font-family-sans-serif;
 $font-family-code: var(--#{$variable-prefix}font-monospace);
