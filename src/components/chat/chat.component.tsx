@@ -1,9 +1,9 @@
 import _ from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactMoment from 'react-moment';
-import { useParams } from 'react-router-dom';
 import {
+  Alert,
   Button,
   CardBody,
   DropdownItem,
@@ -13,19 +13,21 @@ import {
   ModalBody,
   ModalFooter,
   ModalHeader,
+  Spinner,
   UncontrolledDropdown,
 } from 'reactstrap';
 import SimpleBarCore from 'simplebar-core';
 import SimpleBar from 'simplebar-react';
-import { useContacts, useRealtimeMessages } from '../../hooks';
-
 import {
   AppState,
   IMessage,
+  getChannel,
   useAppDispatch,
   useAppSelector,
 } from '../../redux';
 
+import { useParams } from 'react-router-dom';
+import { useContacts, useRealtimeMessages } from '../../hooks';
 import ContactFinder from '../tabs/channels-tab/contact-finder.component';
 import ChatInput from './chat-input.component';
 import ChatProfileHeader from './chat-profile-header.component';
@@ -44,11 +46,17 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
   const simplebarRef = useRef<SimpleBarCore | null>(null);
   const { userSidebar } = useAppSelector((state: AppState) => state.layout);
   const channel = useAppSelector(
-    (state: AppState) => state.channel.lastOpenedChannel
+    (state: AppState) => state.channel.openedChannel
   );
-  const { messages } = useRealtimeMessages(channelId);
+  const { messages, loading, error } = useRealtimeMessages(channelId);
   const [forwardToModal, setForwardToModal] = useState<boolean>(false);
   const contacts = useContacts(uid);
+
+  useEffect(() => {
+    if (channelId) {
+      dispatch(getChannel(channelId));
+    }
+  }, [channelId]);
 
   useEffect(() => {
     const simpleBarInstance = simplebarRef.current;
@@ -62,30 +70,19 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
     }
   }, [messages]);
 
-  // useEffect(() => {
-  //   if (channel?.id) {
-  //     onSnapshot(doc(db, 'channels', channel.id), (docSnap) => {
-  //       if (docSnap.exists()) {
-  //         // compare the old channel with the new one
-  //         const channelDoc = docSnap.data() as IChannel;
-  //         if (channel.messages.length !== channelDoc.messages.length) {
-  //           dispatch(
-  //             setLastOpenedChannel({
-  //               id: channel.id,
-  //               ...docSnap.data(),
-  //             } as IChannel)
-  //           );
-  //         }
-  //       }
-  //     });
-  //   }
-  // }, [channel]);
-
   const toggleForwardToModal = () => setForwardToModal(!forwardToModal);
 
   const deleteMessage = (message: IMessage) => {
     console.log('Deleting', message);
   };
+
+  if (loading) {
+    return <Spinner className="spinner" color="dark" type="grow" />;
+  }
+
+  if (error) {
+    return <Alert color="danger">{error}</Alert>;
+  }
 
   return (
     <div className="user-chat w-100 user-chat-show">
@@ -101,8 +98,8 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
           >
             <ul className="list-unstyled mb-0">
               {_.map(_.keys(messages), (messageDate, i) => (
-                <>
-                  <li key={i}>
+                <Fragment key={i}>
+                  <li>
                     <div className="chat-day-title">
                       <span className="title">{messageDate}</span>
                     </div>
@@ -127,12 +124,7 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
                                   alt="profile"
                                 />
                               ) : (
-                                <img
-                                  // src={message.author.photoURL}
-                                  // TODO: Change this to use the users photoURL
-                                  src="https://via.placeholder.com/100"
-                                  alt="channel"
-                                />
+                                <img src={message.photoURL} alt="channel" />
                               )}
                             </div>
                           )
@@ -146,12 +138,7 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
                                 alt="profile"
                               />
                             ) : (
-                              <img
-                                // src={message.author.photoURL}
-                                // TODO: Change this to use the users photoURL
-                                src="https://via.placeholder.com/100"
-                                alt="channel"
-                              />
+                              <img src={message.photoURL} alt="channel" />
                             )}
                           </div>
                         )}
@@ -200,21 +187,21 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
                               <div className="conversation-name">
                                 {message.user === uid
                                   ? displayName
-                                  : message.user}
+                                  : message.displayName}
                               </div>
                             )
                           ) : (
                             <div className="conversation-name">
                               {message.user === uid
                                 ? displayName
-                                : message.user}
+                                : message.displayName}
                             </div>
                           )}
                         </div>
                       </div>
                     </li>
                   ))}
-                </>
+                </Fragment>
               ))}
             </ul>
           </SimpleBar>

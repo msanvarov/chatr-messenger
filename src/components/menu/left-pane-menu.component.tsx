@@ -276,8 +276,8 @@ export const LeftPaneMenu = () => {
               Github Repository
             </UncontrolledTooltip>
           </NavItem>
-          <NavItem>
-            <NavLink id="light-dark" onClick={() => setLayoutColorMode(mode)}>
+          <NavItem onClick={() => dispatch(setLayoutColorMode(mode))}>
+            <NavLink id="light-dark">
               <i className="ri-sun-line theme-mode-icon"></i>
             </NavLink>
             <UncontrolledTooltip target="light-dark" placement="right">

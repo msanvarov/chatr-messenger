@@ -20,15 +20,22 @@ import {
   UncontrolledTooltip,
 } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
-import { useQueryOnGroupedContacts } from 'src/hooks/use-query-on-grouped-contacts.hook';
 
-import { IUser, useAppDispatch } from '../../../redux';
+import { useQueryOnGroupedContacts } from '../../../hooks';
+import {
+  channelExists,
+  createChannel,
+  fetchUserMetadata,
+  IUser,
+  useAppDispatch,
+} from '../../../redux';
 
 type ContactsTabProps = {
   uid: string;
+  displayName: string | null;
 };
 
-export const ContactsTab = ({ uid }: ContactsTabProps) => {
+export const ContactsTab = ({ uid, displayName }: ContactsTabProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [inviteContactsModal, setInviteContactsModal] =
@@ -38,11 +45,31 @@ export const ContactsTab = ({ uid }: ContactsTabProps) => {
   const [contactSearchQuery, setContactSearchQuery] = useState<string>();
   const groupedContacts = useQueryOnGroupedContacts(uid, contactSearchQuery);
 
-  const createDirectMessageWithContact = (userId: string) => {
-    console.log('createDirectMessageWithContact', userId);
-    // dispatch(createChannel({
+  const createDirectMessageWithContact = async (userId: string) => {
+    // Get contact's user metadata
+    const contactsMetadata = await fetchUserMetadata(userId);
 
-    // }));
+    // Check if a channel already exists between the two users
+    if (!channelExists([uid, userId])) {
+      dispatch(
+        createChannel({
+          name:
+            contactsMetadata.displayName ?? contactsMetadata.uid ?? 'Unknown',
+          members: [
+            JSON.stringify({ uid, displayName }),
+            JSON.stringify({
+              uid: userId,
+              displayName: contactsMetadata.displayName,
+              email: contactsMetadata.email,
+            }),
+          ],
+          photoURL:
+            contactsMetadata.photoURL ?? 'https://via.placeholder.com/100',
+          createdAt: new Date().toISOString(),
+          isDirectMessage: true,
+        })
+      );
+    }
   };
 
   return (

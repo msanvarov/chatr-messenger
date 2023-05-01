@@ -11,7 +11,12 @@ import {
   Media,
   Row,
 } from 'reactstrap';
-import { IChannel, toggleUserSidebar, useAppDispatch } from '../../redux';
+import {
+  IChannel,
+  deleteUserFromChannel,
+  toggleUserSidebar,
+  useAppDispatch,
+} from '../../redux';
 
 type ChatProfileHeaderProps = {
   uid: string;
@@ -43,9 +48,9 @@ const ChatProfileHeader: React.FC<ChatProfileHeaderProps> = ({
   };
 
   const deleteChat = () => {
-    // if (channel) {
-    //   dispatch(deleteChannelForUser({ userId: uid, channelId: channel.id }));
-    // }
+    if (channel) {
+      dispatch(deleteUserFromChannel({ userId: uid, channelId: channel.id }));
+    }
   };
 
   return (

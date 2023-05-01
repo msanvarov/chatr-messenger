@@ -38,7 +38,7 @@ export const TabsMenu: React.FC<TabsMenuProps> = ({
             {...{
               uid: profile.uid,
               channels: channels,
-              lastViewedChannel: profile.lastOpenedChannel,
+              lastOpenedChannel: profile.lastOpenedChannel,
             }}
           />
         </TabPane>
@@ -46,6 +46,7 @@ export const TabsMenu: React.FC<TabsMenuProps> = ({
           <ChannelsTab
             {...{
               uid: profile.uid,
+              displayName: profile.displayName,
               channels,
               contacts,
             }}
@@ -55,6 +56,7 @@ export const TabsMenu: React.FC<TabsMenuProps> = ({
           <ContactsTab
             {...{
               uid: profile.uid,
+              displayName: profile.displayName,
               contacts,
             }}
           />

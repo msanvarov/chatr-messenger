@@ -52,7 +52,6 @@ export interface IFirestoreChannel {
   name: string;
   nicknames: INickname[];
   members: string[];
-
   typingUsers?: ITypingUser[]; // userId arrays
   // comes from the message collection
   lastMessage?: ILastMessage;
@@ -65,7 +64,7 @@ export interface INickname {
 }
 
 export interface IChannelState {
-  readonly lastOpenedChannel: IChannel | null;
+  readonly openedChannel: IChannel | null;
   readonly channels: IChannel[];
   readonly loading: boolean;
   readonly error: string | null;

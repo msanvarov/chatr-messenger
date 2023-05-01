@@ -4,12 +4,14 @@ import * as ReactDOM from 'react-dom/client';
 import { Helmet } from 'react-helmet';
 import { Provider } from 'react-redux';
 import {
-  createBrowserRouter,
   Navigate,
   Outlet,
   RouterProvider,
+  createBrowserRouter,
 } from 'react-router-dom';
 import { Spinner } from 'reactstrap';
+import { PersistGate } from 'redux-persist/integration/react';
+
 import ChatLandingPage from './pages/chat-landing.page';
 import ChatPage from './pages/chat.page';
 import ForgotPasswordPage from './pages/forgot-password.page';
@@ -18,7 +20,8 @@ import LogoutPage from './pages/logout.page';
 import RegisterPage from './pages/register.page';
 import {
   auth,
-  fetchUserMetadata,
+  getUserMetadata,
+  persistor,
   setIsAuthenticated,
   setIsEmailConfirmed,
   setUserMetadata,
@@ -44,11 +47,9 @@ const PrivateRoute = ({
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         // fetch user metadata from firestore
-        const userMetadata = await fetchUserMetadata(user.uid);
-
+        dispatch(getUserMetadata(user.uid));
         dispatch(setIsAuthenticated(true));
         dispatch(setIsEmailConfirmed(user.emailVerified));
-        dispatch(setUserMetadata(userMetadata));
       } else {
         dispatch(setIsAuthenticated(false));
         dispatch(setIsEmailConfirmed(null));
@@ -73,7 +74,7 @@ const PrivateRoute = ({
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [dispatch]);
 
   if (loading) {
     return (
@@ -88,6 +89,46 @@ const PrivateRoute = ({
     return <Navigate to={redirectPath} replace />;
   }
   return children ? children : <Outlet />;
+};
+
+const GlobalLayout = () => {
+  const { layoutColorMode } = useAppSelector((state) => state.layout);
+  const { lastOpenedChannel } = useAppSelector((state) => state.user);
+
+  useEffect(() => {
+    document.body.setAttribute('data-layout-mode', layoutColorMode);
+  }, [layoutColorMode]);
+
+  useEffect(() => {
+    const chatEls = document.querySelectorAll('#chat-list li');
+    const channelEls = document.querySelectorAll('#channel-list li');
+    const activeClass = 'active';
+
+    // Remove the active class from all list items
+    chatEls.forEach((chatEl) => chatEl.classList.remove(activeClass));
+    channelEls.forEach((channelEl) => channelEl.classList.remove(activeClass));
+
+    // Add the active class to the selected conversation
+    const chatEl = document.querySelector(
+      `#chat-list #conversation-${lastOpenedChannel}`
+    );
+    const channelEl = document.querySelector(
+      `#channel-list #channel-${lastOpenedChannel}`
+    );
+
+    chatEl?.classList.add(activeClass);
+    channelEl?.classList.add(activeClass);
+
+    const userChat = document.querySelector('.user-chat');
+    userChat?.classList.add('user-chat-show');
+  }, [lastOpenedChannel]);
+
+  return (
+    <>
+      <Helmet {...helmet} />
+      <Outlet />
+    </>
+  );
 };
 
 const helmet = {
@@ -111,14 +152,7 @@ const helmet = {
 const router = createBrowserRouter([
   {
     path: '',
-    element: (
-      <>
-        <Helmet {...helmet} />
-        <Provider {...{ store }}>
-          <Outlet />
-        </Provider>
-      </>
-    ),
+    element: <GlobalLayout />,
     children: [
       {
         path: '',
@@ -147,6 +181,13 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <StrictMode>
-    <RouterProvider router={router} />
+    <PersistGate
+      loading={<Spinner className="spinner" color="dark" type="grow" />}
+      {...{ persistor }}
+    >
+      <Provider {...{ store }}>
+        <RouterProvider router={router} />
+      </Provider>
+    </PersistGate>
   </StrictMode>
 );

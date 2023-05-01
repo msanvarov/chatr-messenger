@@ -1,16 +1,15 @@
-export interface IMessage {
-  //   channelId: string;
-  // Id comes from the document id
-  id: string;
-  // author: {
-  //   id: string;
-  //   name: string; // comes from displayName
-  //   photoURL: string;
-  // };
+export interface IFirestoreChannelMessage {
   user: string; // user id
   text: string;
   edited?: boolean;
   timestamp: string;
+}
+export interface IMessage extends IFirestoreChannelMessage {
+  channelId: string;
+  id: string;
+  // TODO: Should be in the user object
+  displayName: string; // comes from displayName
+  photoURL: string;
   reactions?: { [emoji: string]: string[] }; // Keys represent emojis, values are arrays of user IDs who reacted with the emoji
   replies?: IMessage[];
 }
@@ -31,7 +30,7 @@ export interface IReplyMessagePayload extends ICreateMessagePayload {
 }
 
 export interface IChannelMessagesState {
-  readonly messages: IMessage[];
+  readonly messages: Record<string, IMessage[]>;
   readonly loading: boolean;
   readonly error: string | null;
 }

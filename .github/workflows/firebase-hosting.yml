@@ -1,39 +1,17 @@
 name: Chatr Firebase Hosting
-
 on:
   push:
     branches:
       - master
       - stable-release
       - feat/*
-
 jobs:
   deploy:
-    runs-on: ubuntu-18.04
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-
-      - name: Fetch Node
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: 'https://registry.npmjs.org'
-
-      - name: Download Dependencies
-        run: npm ci
-
-      - name: Build
-        run: npm run build
-        env:
-          REACT_APP_GIT_SHA: ${{ github.SHA }}
-
-      - name: Deploy
-        uses: FirebaseExtended/action-hosting-deploy@v0
+      - uses: actions/checkout@v3
+      - run: npm ci && npm run build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_CHATR }}'

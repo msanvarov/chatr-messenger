@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import {
   addDoc,
   arrayUnion,
@@ -20,7 +20,7 @@ import {
 } from './types';
 
 const initialState: IChannelMessagesState = {
-  messages: [],
+  messages: {},
   loading: false,
   error: null,
 };
@@ -76,6 +76,8 @@ export const replyToMessage = createAsyncThunk(
       channelId,
       messageId,
       user,
+      displayName,
+      photoURL,
       text,
       timestamp: createdAt,
     }: IReplyMessagePayload,
@@ -84,8 +86,11 @@ export const replyToMessage = createAsyncThunk(
     try {
       const messageRef = doc(db, 'channels', channelId, 'messages', messageId);
       const messageReply: IMessage = {
+        channelId,
         id: '',
         user,
+        displayName,
+        photoURL,
         text,
         edited: false,
         timestamp: createdAt,
@@ -97,7 +102,7 @@ export const replyToMessage = createAsyncThunk(
         replies: arrayUnion(messageReply),
       });
 
-      return messageReply;
+      return { messageReply, messageId, channelId };
     } catch (e) {
       return rejectWithValue((e as Error).message);
     }
@@ -118,7 +123,7 @@ export const reactToMessage = createAsyncThunk(
         [reactionKey]: arrayUnion(userId),
       });
 
-      return { messageId, emoji, userId };
+      return { messageId, emoji, userId, channelId };
     } catch (e) {
       return rejectWithValue((e as Error).message);
     }
@@ -129,36 +134,34 @@ const messagesSlice = createSlice({
   name: '@@messages',
   initialState,
   reducers: {
-    writeMessage: (state, action) => {
-      // Find the message if it exists
-      // const messageIndex = state.messages.findIndex(
-      //   (message) => message.id === action.payload.id
-      // );
-      // if (messageIndex !== -1) {
-      //   // Update the message if it exists
-      //   state.messages[messageIndex] = action.payload as IMessage;
-      // }
-      //  else {
-      //   // Add the message if it does not exist
-      state.messages.push(action.payload as IMessage);
-      // }
+    setMessage: (state, action: PayloadAction<IMessage>) => {
+      if (!state.messages[action.payload.channelId]) {
+        state.messages[action.payload.channelId] = [];
+      }
+      // Search for the action.payload.id in the state.messages[action.payload.channelId] array and only append if it doesn't exist
+      if (
+        !state.messages[action.payload.channelId].find(
+          (message) => message.id === action.payload.id
+        )
+      ) {
+        state.messages[action.payload.channelId].push(action.payload);
+      }
     },
     editMessage: (state, action) => {
-      const messageIndex = state.messages.findIndex(
-        (message) => message.id === action.payload.id
-      );
-      if (messageIndex !== -1) {
+      const { channelId, id } = action.payload;
+      if (state.messages[channelId] && state.messages[channelId][id]) {
         // Tracking if the message has been edited
-        state.messages[messageIndex] = {
+        state.messages[channelId][id] = {
           ...action.payload,
           edited: true,
         };
       }
     },
     removeMessage: (state, action) => {
-      state.messages = state.messages.filter(
-        (message) => message.id !== action.payload
-      );
+      const { channelId, id } = action.payload;
+      if (state.messages[channelId] && state.messages[channelId][id]) {
+        delete state.messages[channelId][id];
+      }
     },
   },
   extraReducers: (builder) => {
@@ -180,33 +183,9 @@ const messagesSlice = createSlice({
     builder.addCase(replyToMessage.rejected, (state, action) => {
       state.error = action.payload as string;
     });
-    builder.addCase(fetchMessages.fulfilled, (state, action) => {
-      state.messages = action.payload as IMessage[];
-      state.loading = false;
-    });
-    builder.addCase(reactToMessage.fulfilled, (state, action) => {
-      const { messageId, emoji, userId } = action.payload;
-
-      const messageIndex = state.messages.findIndex(
-        (message) => message.id === messageId
-      );
-
-      if (messageIndex !== -1) {
-        const message = state.messages[messageIndex];
-        message.reactions = message.reactions || {};
-        message.reactions[emoji] = message.reactions[emoji] || [];
-        message.reactions[emoji].push(userId);
-      }
-
-      state.loading = false;
-    });
-    builder.addCase(replyToMessage.fulfilled, (state) => {
-      state.loading = false;
-    });
   },
 });
 
-export const { writeMessage, editMessage, removeMessage } =
-  messagesSlice.actions;
+export const { setMessage, editMessage, removeMessage } = messagesSlice.actions;
 
 export const messagesReducer = messagesSlice.reducer;

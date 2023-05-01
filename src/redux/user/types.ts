@@ -15,6 +15,11 @@ export interface IUserMetadata {
   lastLogin?: string | null;
 }
 
+export interface ILastOpenedChannelPayload {
+  uid: string;
+  channelId: string;
+}
+
 export interface IUserState extends IUserMetadata {
   loading: boolean;
   error: string | null;
