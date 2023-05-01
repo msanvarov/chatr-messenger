@@ -4,7 +4,7 @@
   <a href="https://react-chatr.web.app/login" target="blank"><img src="src/assets/logo-dark.png" width="320" alt="Chatr Logo" /></a>
 </p>
 
-<p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
+<p align="center">A messaging platform built with <a href="https://react.dev/" target="blank">React</a>, <a href="https://firebase.google.com/" target="blank">Firebase</a> and <a href="https://reactstrap.github.io/?path=/story/home-installation--page" target="blank">Reactstrap (Bootstrap v5)</a>.</p>
 
 <p align="center">
   <a href="https://nx.dev/" target="blank"><img src="https://img.shields.io/badge/Nx-13.1.2-blue" alt="Nx Version" /></a>
@@ -25,7 +25,7 @@ Table of Contents:
 
 ### 📚 Description
 
-This React Chat App is built with Nx, Redux, and Firebase. It provides real-time chatting capabilities with the ability to edit your profile, start channels, see other profiles, and start DM conversations with people. This application is a great reference point for building a comprehensive chat application.
+This React chat app is built with Nx, Redux, Bootstrap and Firebase. It provides real-time chatting capabilities with options to edit your profile, start channels, view other profiles, and start DM conversations with people. This application is a great reference point for building a robust chat application.
 
 ---
 
@@ -33,9 +33,11 @@ This React Chat App is built with Nx, Redux, and Firebase. It provides real-time
 
 #### Non Docker
 
-- Please make sure to have [Node.js](https://nodejs.org/en/download/) (16+) locally by downloading the Javascript runtime via `brew`, `choco`, or `apt-get`.
+- Please make sure to have [Node.js](https://nodejs.org/en/download/) (18+) locally by downloading the Javascript runtime via `brew`, `choco`, or `apt-get`.
 
-- Please make sure to have MYSQL locally by deploying a web server stack like [XAMPP](https://www.apachefriends.org/). The control panel can then trigger MYSQL to start on localhost. MYSQL can be downloaded standalone via `brew`, `choco`, or `apt-get`.
+- Please make sure to have Firebase configured by creating a new app on the [Firebase Console](https://console.firebase.google.com/). Registering with [AppCheck to use ReCaptcha](https://firebase.google.com/docs/app-check/web/recaptcha-provider) can help prevent abuse and safe guard your app against bad actors.
+
+> Remark: Firebase CLI can streamline a lot of common configuration operations and can be downloaded via `npm i -g firebase-tools`.
 
 #### Docker 🐳
 
@@ -64,7 +66,7 @@ This React Chat App is built with Nx, Redux, and Firebase. It provides real-time
 $ docker-compose up -d
 ```
 
-- The following command will download dependencies and execute the web application on http://localhost:80 (deployed behind a Nginx reverse proxy).
+- The following command will download dependencies and execute the web application on http://localhost:4200 (deployed in development mode).
 
 ---
 
@@ -72,7 +74,11 @@ $ docker-compose up -d
 
 By default, the application comes with a config module that can read in every environment variable from the `.env` file.
 
-TODO
+**APP_ENV** - the application environment to execute as, either in development or production. Determines the type of logging options to utilize. Options: `development` or `production`.
+
+**FIREBASE\_\*** - the firebase config details that can be fetched when creating the [SDK for the app](https://firebase.google.com/docs/web/setup).
+
+**RECAPTCHA_KEY** - public recaptcha key for [Firebase AppCheck](https://firebase.google.com/docs/app-check/web/recaptcha-provider).
 
 ---
 
