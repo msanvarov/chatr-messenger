@@ -3,8 +3,6 @@ on:
   push:
     branches:
       - master
-      - stable-release
-      - feat/*
 jobs:
   deploy:
     runs-on: ubuntu-latest
