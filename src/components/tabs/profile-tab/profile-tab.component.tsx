@@ -148,9 +148,9 @@ const ProfileTab: React.FC<ProfileTabProps> = ({ profile }) => {
                     ? profile?.location
                     : !position
                     ? t('Failed to fetch coordinates')
-                    : `(${position.latitude?.toFixed(
-                        4
-                      )},${position.longitude?.toFixed(4)})`}
+                    : `(${position.latitude?.toFixed(4) ?? 'No Lat'},${
+                        position.longitude?.toFixed(4) ?? 'No Long'
+                      })`}
                 </h5>
               </div>
             </CustomCollapse>

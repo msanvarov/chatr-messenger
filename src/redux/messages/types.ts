@@ -21,7 +21,8 @@ export interface IMessageReactionPayload {
   emoji: string;
 }
 
-export interface ICreateMessagePayload extends Omit<IMessage, 'id'> {
+export interface ICreateMessagePayload
+  extends Omit<IMessage, 'id' | 'displayName' | 'photoURL'> {
   channelId: string;
 }
 

@@ -76,8 +76,6 @@ export const replyToMessage = createAsyncThunk(
       channelId,
       messageId,
       user,
-      displayName,
-      photoURL,
       text,
       timestamp: createdAt,
     }: IReplyMessagePayload,
@@ -85,12 +83,9 @@ export const replyToMessage = createAsyncThunk(
   ) => {
     try {
       const messageRef = doc(db, 'channels', channelId, 'messages', messageId);
-      const messageReply: IMessage = {
+      const messageReply: ICreateMessagePayload = {
         channelId,
-        id: '',
         user,
-        displayName,
-        photoURL,
         text,
         edited: false,
         timestamp: createdAt,

@@ -1,9 +1,11 @@
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import AliceCarousel from 'react-alice-carousel';
 import { Link } from 'react-router-dom';
 
 import 'react-alice-carousel/lib/alice-carousel.css';
+import { UncontrolledTooltip } from 'reactstrap';
+import { useContacts } from '../../../hooks';
 
 const responsive = {
   0: { items: 4 },
@@ -15,21 +17,7 @@ type ContactsCarouselProps = {
 };
 
 const ContactsCarousel: React.FC<ContactsCarouselProps> = ({ uid }) => {
-  // TODO move business logic to redux
-  const [users, setUsers] = useState<
-    { uid: string; displayName: string; photoURL: string }[]
-  >([
-    {
-      uid: '1',
-      displayName: 'John Doe',
-      photoURL: 'https://i.pravatar.cc/200?u=1',
-    },
-    {
-      uid: '2',
-      displayName: 'Jane Doe',
-      photoURL: 'https://i.pravatar.cc/200?u=1',
-    },
-  ]);
+  const users = useContacts(uid, 100);
 
   return (
     <div className="px-4 pb-4" dir="ltr">
@@ -38,29 +26,29 @@ const ContactsCarousel: React.FC<ContactsCarouselProps> = ({ uid }) => {
         disableButtonsControls
         disableDotsControls
         mouseTracking
+        autoPlay
       >
         {users &&
-          _.map(
-            _.filter(users, (user) => user.uid !== uid),
-            (user, i) => (
-              <div className="item" key={i}>
-                <Link to={user.uid} className="user-status-box">
-                  <div className="avatar-xs mx-auto d-block chat-user-img online">
-                    <img
-                      src={user.photoURL}
-                      alt="user-img"
-                      className="img-fluid rounded-circle"
-                    />
-                    <span className="user-status"></span>
-                  </div>
-
-                  <h5 className="font-size-13 text-truncate mt-3 mb-1">
-                    {user.displayName}
-                  </h5>
-                </Link>
-              </div>
-            )
-          )}
+          _.map(users, (user, i) => (
+            <div className="item" key={i} id={`name${i}`}>
+              <Link to={user.uid} className="user-status-box">
+                <div className="avatar-xs mx-auto d-block chat-user-img online">
+                  <img
+                    src={user.photoURL ?? 'via.placeholder.com/100'}
+                    alt="user-img"
+                    className="img-fluid rounded-circle"
+                  />
+                  <span className="user-status"></span>
+                </div>
+                <h5 className="font-size-13 text-truncate mt-3 mb-1">
+                  {user.displayName}
+                </h5>
+                <UncontrolledTooltip target={`name${i}`} placement="bottom">
+                  {user.displayName}
+                </UncontrolledTooltip>
+              </Link>
+            </div>
+          ))}
       </AliceCarousel>
     </div>
   );

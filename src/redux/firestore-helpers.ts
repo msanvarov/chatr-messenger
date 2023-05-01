@@ -70,8 +70,8 @@ export const fetchUsers = async (requestingUserId: string, userLimit = 100) => {
   querySnapshot.forEach((doc) => {
     if (doc.id !== requestingUserId && doc.id !== 'message-bot') {
       const uid = doc.id;
-      const { displayName, email } = doc.data();
-      usersMap.set(uid, { displayName, email });
+      const { displayName, email, photoURL } = doc.data();
+      usersMap.set(uid, { displayName, email, photoURL });
     }
   });
 
