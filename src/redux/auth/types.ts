@@ -11,11 +11,21 @@ export interface IRegisterPayload {
   picture: string;
 }
 
+export enum AuthErrorCodeEnum {
+  LOGIN_FAILED,
+  REGISTER_FAILED,
+  FOGOT_PASSWORD_FAILED,
+  LOGOUT_FAILED,
+}
+
 export interface IAuthState {
   readonly isAuthenticated: boolean;
   readonly isEmailConfirmed: boolean | null;
   readonly loading: boolean;
-  readonly error: string | null;
+  readonly error: {
+    code: AuthErrorCodeEnum;
+    message: string;
+  } | null;
 }
 
 export interface IFirebaseUserResponseType {

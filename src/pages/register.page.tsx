@@ -1,6 +1,6 @@
 import { useFormik } from 'formik';
 import gravatar from 'gravatar';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useTranslation } from 'react-i18next';
 import { Link, useNavigate } from 'react-router-dom';
@@ -24,8 +24,8 @@ import * as Yup from 'yup';
 import { Footer, Header } from '../components/auth';
 import {
   AppState,
+  AuthErrorCodeEnum,
   register,
-  resetErrorState,
   useAppDispatch,
   useAppSelector,
 } from '../redux';
@@ -47,13 +47,6 @@ const RegisterPage = () => {
   const { error, loading, isAuthenticated } = useAppSelector(
     (state: AppState) => state.auth
   );
-
-  useEffect(() => {
-    // clear the error state from previous render
-    if (error) {
-      dispatch(resetErrorState());
-    }
-  }, []);
 
   const { handleChange, handleBlur, handleSubmit, errors, touched, values } =
     useFormik({
@@ -97,11 +90,12 @@ const RegisterPage = () => {
 
               <Card>
                 <CardBody className="p-4">
-                  {!loading && error && (
-                    <Alert variant="danger" color="danger">
-                      {error}
-                    </Alert>
-                  )}
+                  {!loading &&
+                    error?.code === AuthErrorCodeEnum.REGISTER_FAILED && (
+                      <Alert variant="danger" color="danger">
+                        {error.message}
+                      </Alert>
+                    )}
                   <div className="p-3">
                     <Form onSubmit={handleSubmit}>
                       <FormGroup>

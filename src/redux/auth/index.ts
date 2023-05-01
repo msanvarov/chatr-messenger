@@ -13,7 +13,8 @@ import { patchUserMetadata, patchUserProfile } from '../firestore-helpers';
 
 import { setUserMetadata } from '../user';
 import { IUserMetadata } from '../user/types';
-import type {
+import {
+  AuthErrorCodeEnum,
   IAuthState,
   IFirebaseUserResponseType,
   ILoginPayload,
@@ -134,9 +135,6 @@ export const authSlice = createSlice({
     setIsEmailConfirmed: (state, action: PayloadAction<boolean | null>) => {
       state.isEmailConfirmed = action.payload;
     },
-    resetErrorState: (state) => {
-      state.error = null;
-    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.pending, (state) => {
@@ -157,19 +155,31 @@ export const authSlice = createSlice({
     });
     builder.addCase(login.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.error = {
+        code: AuthErrorCodeEnum.LOGIN_FAILED,
+        message: action.payload as string,
+      };
     });
     builder.addCase(register.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.error = {
+        code: AuthErrorCodeEnum.REGISTER_FAILED,
+        message: action.payload as string,
+      };
     });
     builder.addCase(forgotPassword.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.error = {
+        code: AuthErrorCodeEnum.FOGOT_PASSWORD_FAILED,
+        message: action.payload as string,
+      };
     });
     builder.addCase(logout.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as string;
+      state.error = {
+        code: AuthErrorCodeEnum.LOGOUT_FAILED,
+        message: action.payload as string,
+      };
     });
     builder.addCase(login.fulfilled, (state, action) => {
       state.loading = false;
@@ -199,7 +209,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { setIsAuthenticated, setIsEmailConfirmed, resetErrorState } =
-  authSlice.actions;
+export const { setIsAuthenticated, setIsEmailConfirmed } = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

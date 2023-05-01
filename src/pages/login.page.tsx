@@ -21,7 +21,13 @@ import {
 import * as Yup from 'yup';
 
 import { Footer, Header } from '../components/auth';
-import { AppState, login, useAppDispatch, useAppSelector } from '../redux';
+import {
+  AppState,
+  AuthErrorCodeEnum,
+  login,
+  useAppDispatch,
+  useAppSelector,
+} from '../redux';
 
 const LoginSchema = Yup.object().shape({
   email: Yup.string().email('Invalid email').required('Required'),
@@ -74,11 +80,12 @@ const LoginPage: React.FC = () => {
 
               <Card>
                 <CardBody className="p-4">
-                  {!loading && error && (
-                    <Alert variant="danger" color="danger">
-                      {error}
-                    </Alert>
-                  )}
+                  {!loading &&
+                    error?.code === AuthErrorCodeEnum.LOGIN_FAILED && (
+                      <Alert variant="danger" color="danger">
+                        {error.message}
+                      </Alert>
+                    )}
                   <div className="p-3">
                     <Form onSubmit={handleSubmit}>
                       <FormGroup>

@@ -22,6 +22,7 @@ import * as Yup from 'yup';
 import { Footer, Header } from '../components/auth';
 import {
   AppState,
+  AuthErrorCodeEnum,
   forgotPassword,
   useAppDispatch,
   useAppSelector,
@@ -71,11 +72,13 @@ const ForgotPasswordPage: React.FC = () => {
               <Card>
                 <CardBody className="p-4">
                   <div className="p-3">
-                    {!loading && error && (
-                      <Alert variant="danger" color="danger">
-                        {error}
-                      </Alert>
-                    )}
+                    {!loading &&
+                      error?.code ===
+                        AuthErrorCodeEnum.FOGOT_PASSWORD_FAILED && (
+                        <Alert variant="danger" color="danger">
+                          {error.message}
+                        </Alert>
+                      )}
                     {passwordResetPrompt && (
                       <Alert variant="success" className="text-center mb-4">
                         {t(
