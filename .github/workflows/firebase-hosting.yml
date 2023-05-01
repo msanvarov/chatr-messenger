@@ -4,37 +4,38 @@ on:
   push:
     branches:
       - master
+      - stable-release
+      - feat/*
 
 jobs:
   deploy:
     runs-on: ubuntu-18.04
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup Node
-        uses: actions/setup-node@v2-beta
+      - name: Fetch Node
+        uses: actions/setup-node@v3
         with:
-          node-version: '12'
+          node-version: ${{ matrix.node-version }}
+          registry-url: 'https://registry.npmjs.org'
 
-      - name: Get yarn cache
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Download Dependencies
+        run: npm ci
 
-      - name: Cache dependencies
-        uses: actions/cache@v2
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - run: yarn
-      - run: yarn build
+      - name: Build
+        run: npm run build
         env:
           REACT_APP_GIT_SHA: ${{ github.SHA }}
 
       - name: Deploy
-        uses: w9jds/firebase-action@master
+        uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          args: deploy --only hosting
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          repoToken: '${{ secrets.GITHUB_TOKEN }}'
+          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_REACT_CHATR }}'
+          channelId: live
+          projectId: react-chatr

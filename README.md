@@ -1,94 +1,122 @@
+<h1 align="center">Chatr Messenger</h1>
 
+<p align="center">
+  <a href="https://react-chatr.web.app/login" target="blank"><img src="src/assets/logo-dark.png" width="320" alt="Chatr Logo" /></a>
+</p>
 
-# Chatr
+<p align="center">A progressive <a href="http://nodejs.org" target="blank">Node.js</a> framework for building efficient and scalable server-side applications, heavily inspired by <a href="https://angular.io" target="blank">Angular</a>.</p>
 
-This project was generated using [Nx](https://nx.dev).
+<p align="center">
+  <a href="https://nx.dev/" target="blank"><img src="https://img.shields.io/badge/Nx-13.1.2-blue" alt="Nx Version" /></a>
+  <a href="https://reactjs.org/" target="blank"><img src="https://img.shields.io/badge/React-17.0.2-blue" alt="React Version" /></a>
+  <a href="https://redux.js.org/" target="blank"><img src="https://img.shields.io/badge/Redux-4.1.2-blue" alt="Redux Version" /></a>
+  <a href="https://firebase.google.com/" target="blank"><img src="https://img.shields.io/badge/Firebase-9.6.3-orange" alt="Firebase Version" /></a>
+</p>
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
+Table of Contents:
 
-🔎 **Smart, Extensible Build Framework**
+1. [Description](#-description)
+2. [Prerequisites](#%EF%B8%8F-prerequisites)
+3. [Deployment](#-deployment)
+4. [Environment Configuration](#-environment-configuration)
+5. [Testing](#-testing)
 
-## Adding capabilities to your workspace
+🔎 This repo was created with [Nx](https://nx.dev/).
 
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
+### 📚 Description
 
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
+This React Chat App is built with Nx, Redux, and Firebase. It provides real-time chatting capabilities with the ability to edit your profile, start channels, see other profiles, and start DM conversations with people. This application is a great reference point for building a comprehensive chat application.
 
-Below are our core plugins:
+---
 
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
+### 🛠️ Prerequisites
 
-There are also many [community plugins](https://nx.dev/community) you could add.
+#### Non Docker
 
-## Generate an application
+- Please make sure to have [Node.js](https://nodejs.org/en/download/) (16+) locally by downloading the Javascript runtime via `brew`, `choco`, or `apt-get`.
 
-Run `nx g @nrwl/react:app my-app` to generate an application.
+- Please make sure to have MYSQL locally by deploying a web server stack like [XAMPP](https://www.apachefriends.org/). The control panel can then trigger MYSQL to start on localhost. MYSQL can be downloaded standalone via `brew`, `choco`, or `apt-get`.
 
-> You can use any of the plugins above to generate applications as well.
+#### Docker 🐳
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
+- Please make sure to have [Docker Desktop](https://www.docker.com/products/docker-desktop/) operational to quickly compose the required dependencies. Then follow the docker procedure outlined below.
 
-## Generate a library
+---
 
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
+### 🚀 Deployment
 
-> You can also use any of the plugins above to generate libraries as well.
+#### Manual Deployment without Docker
 
-Libraries are shareable across libraries and applications. They can be imported from `@chatr/mylib`.
+- Clone the repo via `git clone https://github.com/msanvarov/chatr-messenger`.
 
-## Development server
+- Download dependencies via `npm i` or `yarn`.
 
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
+- Create a **.env file** via the `cp .env.example .env` command and replace the existing environment variable placeholders with valid responses.
 
-## Code scaffolding
+- Start the api in development mode by using `npm run start` (the UI will be exposed on http://localhost:4200).
 
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
+#### Deploying with Docker 🐳
 
-## Build
+- Execute the following command in-app directory:
 
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+```bash
+# creates and loads the docker container in detached mode with the required configuration
+$ docker-compose up -d
+```
 
-## Running unit tests
+- The following command will download dependencies and execute the web application on http://localhost:80 (deployed behind a Nginx reverse proxy).
 
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
+---
 
-Run `nx affected:test` to execute the unit tests affected by a change.
+### 🔒 Environment Configuration
 
-## Running end-to-end tests
+By default, the application comes with a config module that can read in every environment variable from the `.env` file.
 
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
+TODO
 
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
+---
 
-## Understand your workspace
+### ✅ Testing
 
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
+#### Docker 🐳
 
-## Further help
+```bash
+# Start the docker container if it's not running
+$ docker start chatr-messenger
 
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+# unit tests
+$ docker exec -it chatr-messenger npm run test
 
+```
 
+#### Non-Docker
 
-## ☁ Nx Cloud
+```bash
+# execute test
+$ npm run test
+```
 
-### Distributed Computation Caching & Distributed Task Execution
+---
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
+### 🏗️ Progress
 
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
+|                                                         Branches | Status |
+| ---------------------------------------------------------------: | :----- |
+|             [main](https://github.com/msanvarov/chatr-messenger) | ✅     |
+| [feat/\*](https://github.com/msanvarov/chatr-messenger/branches) | 🚧     |
 
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
+<!-- > Remark: This template was employed to create a [Real World example app](https://github.com/gothinkster/realworld) on [Github](). -->
 
-Visit [Nx Cloud](https://nx.app/) to learn more.
+---
+
+### 👥 Support
+
+PRs are appreciated, I fully rely on the passion ❤️ of the OS developers.
+
+---
+
+## License
+
+This starter API is [MIT licensed](LICENSE).
+
+[Author](https://sal-anvarov.tech/)

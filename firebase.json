@@ -1,10 +1,11 @@
 {
-  "database": {
-    "rules": "database.rules.json"
-  },
   "hosting": {
-    "public": "dist/apps/chatr",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "public": "dist/chatr",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
     "rewrites": [
       {
         "source": "**",
@@ -12,6 +13,26 @@
       }
     ]
   },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run lint",
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ],
   "storage": {
     "rules": "storage.rules"
   },
@@ -19,20 +40,24 @@
     "auth": {
       "port": 9099
     },
-    "database": {
-      "port": 9899
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "port": 8080
     },
     "hosting": {
       "port": 5000
     },
+    "pubsub": {
+      "port": 8085
+    },
+    "storage": {
+      "port": 9199
+    },
     "ui": {
       "enabled": true
-    }
-  },
-  "functions": {
-    "predeploy": [
-      "npm --prefix \"$RESOURCE_DIR\" run lint",
-      "npm --prefix \"$RESOURCE_DIR\" run build"
-    ]
+    },
+    "singleProjectMode": true
   }
 }
