@@ -9,6 +9,7 @@ import {
   query,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import { auth, db } from './firebase';
 
@@ -21,6 +22,16 @@ export const fetchUserMetadata = async (userId: string) => {
   } else {
     throw new Error(`${userId} doesn't exist in firestore.`);
   }
+};
+
+export const channelExists = async (memberIds: string[]) => {
+  const channelsRef = collection(db, 'channels');
+  const channelsDataQuery = query(
+    channelsRef,
+    where('members', '==', memberIds)
+  );
+  const channelsQuerySnapshot = await getDocs(channelsDataQuery);
+  return channelsQuerySnapshot.docs.length >= 1;
 };
 
 export const patchUserMetadata = async (

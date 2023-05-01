@@ -15,7 +15,6 @@ import {
 import { IUser } from '../api/users/types';
 import { db } from '../firebase';
 
-import { IUserMetadata } from '../user/types';
 import type {
   IChannel,
   IChannelState,
@@ -25,7 +24,7 @@ import type {
 } from './types';
 
 const initialState: IChannelState = {
-  lastOpenedChannel: null,
+  openedChannel: null,
   channels: [],
   loading: false,
   error: null,
@@ -108,37 +107,6 @@ export const createChannel = createAsyncThunk(
   }
 );
 
-export const fetchLastOpenedChannelForUser = createAsyncThunk(
-  '@@channel/fetchLastOpenedChannelForUser',
-  async (userId: string, { rejectWithValue }) => {
-    try {
-      const fetchUserMetadata = async () => {
-        const userSnapshot = await getDoc(doc(db, 'users', userId));
-        const userMetadata = userSnapshot.data() as Partial<IUserMetadata>;
-        return userMetadata.lastOpenedChannel;
-      };
-
-      const fetchChannelData = async (channelId: string) => {
-        const channelSnapshot = await getDoc(doc(db, 'channels', channelId));
-        if (channelSnapshot.exists()) {
-          return { ...channelSnapshot.data(), id: channelSnapshot.id };
-        } else {
-          return rejectWithValue('Channel does not exist');
-        }
-      };
-
-      const lastOpenedChannel = await fetchUserMetadata();
-      if (!lastOpenedChannel)
-        return rejectWithValue('No last opened channel found for user');
-      const channelData = await fetchChannelData(lastOpenedChannel);
-
-      return channelData;
-    } catch (e) {
-      return rejectWithValue((e as Error).message);
-    }
-  }
-);
-
 export const fetchChannel = createAsyncThunk(
   '@@channel/fetchChannel',
   async (channelId: string, { rejectWithValue }) => {
@@ -148,34 +116,9 @@ export const fetchChannel = createAsyncThunk(
         return {
           id: channelId,
           ...channelSnapshot.data(),
-        } as Partial<IChannel>;
+        } as IChannel;
       }
       return rejectWithValue('Channel does not exist');
-    } catch (e) {
-      return rejectWithValue((e as Error).message);
-    }
-  }
-);
-
-export const fetchChannelsForUser = createAsyncThunk(
-  '@@channel/fetchChannelsForUser',
-  async (userId: string, { rejectWithValue }) => {
-    try {
-      const channelsRef = collection(db, 'channels');
-      const channelsDataQuery = query(
-        channelsRef,
-        where('members', 'array-contains', userId)
-      );
-
-      const channelQuerySnapshot = await getDocs(channelsDataQuery);
-
-      const channelsDocData = channelQuerySnapshot.docs.map((doc) => ({
-        ...(doc.data() as IChannel),
-        id: doc.id,
-      }));
-
-      console.log(channelsDocData);
-      return channelsDocData;
     } catch (e) {
       return rejectWithValue((e as Error).message);
     }
@@ -203,7 +146,7 @@ export const deleteUserFromChannel = createAsyncThunk(
   }
 );
 
-export const updateTypingStatus = createAsyncThunk(
+export const patchTypingStatus = createAsyncThunk(
   '@@channel/updateTypingStatus',
   async (
     { channelId, user, isTyping }: IUpdateTypingStatusPayload,
@@ -227,8 +170,13 @@ export const channelSlice = createSlice({
   name: '@@channel',
   initialState,
   reducers: {
-    setLastOpenedChannel: (state, action: PayloadAction<IChannel>) => {
-      state.lastOpenedChannel = action.payload;
+    getChannel: (state, action: PayloadAction<string>) => {
+      const channel = state.channels.find(
+        (channel) => channel.id === action.payload
+      );
+      if (channel) {
+        state.openedChannel = channel;
+      }
     },
     setChannels: (state, action: PayloadAction<IChannel[]>) => {
       state.channels = action.payload;
@@ -238,40 +186,24 @@ export const channelSlice = createSlice({
     builder.addCase(fetchChannel.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchChannelsForUser.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(fetchLastOpenedChannelForUser.pending, (state) => {
-      state.loading = true;
-    });
     builder.addCase(deleteUserFromChannel.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(updateTypingStatus.pending, (state) => {
+    builder.addCase(patchTypingStatus.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchChannel.rejected, (state, action) => {
       state.error = action.payload as string;
     });
-    builder.addCase(fetchChannelsForUser.rejected, (state, action) => {
-      state.error = action.payload as string;
-    });
-    builder.addCase(fetchLastOpenedChannelForUser.rejected, (state, action) => {
-      state.error = action.payload as string;
-    });
     builder.addCase(deleteUserFromChannel.rejected, (state, action) => {
       state.error = action.payload as string;
     });
-    builder.addCase(updateTypingStatus.rejected, (state, action) => {
+    builder.addCase(patchTypingStatus.rejected, (state, action) => {
       state.error = action.payload as string;
     });
     builder.addCase(fetchChannel.fulfilled, (state, action) => {
-      state.lastOpenedChannel = action.payload as IChannel;
       state.loading = false;
-    });
-    builder.addCase(fetchChannelsForUser.fulfilled, (state, action) => {
-      state.channels = action.payload as IChannel[];
-      state.loading = false;
+      state.openedChannel = action.payload;
     });
     builder.addCase(deleteUserFromChannel.fulfilled, (state, action) => {
       state.channels = state.channels.filter(
@@ -279,14 +211,7 @@ export const channelSlice = createSlice({
       );
       state.loading = false;
     });
-    builder.addCase(
-      fetchLastOpenedChannelForUser.fulfilled,
-      (state, action) => {
-        state.lastOpenedChannel = action.payload as IChannel;
-        state.loading = false;
-      }
-    );
-    builder.addCase(updateTypingStatus.fulfilled, (state, action) => {
+    builder.addCase(patchTypingStatus.fulfilled, (state, action) => {
       const { channelId, user: payloadUser, isTyping } = action.payload;
       const channelIndex = state.channels.findIndex(
         (channel) => channel.id === channelId
@@ -316,6 +241,6 @@ export const channelSlice = createSlice({
   },
 });
 
-export const { setLastOpenedChannel, setChannels } = channelSlice.actions;
+export const { getChannel, setChannels } = channelSlice.actions;
 
 export const channelReducer = channelSlice.reducer;

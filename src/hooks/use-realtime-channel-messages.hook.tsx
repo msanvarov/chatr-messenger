@@ -1,17 +1,26 @@
-import { collection, onSnapshot, orderBy, query } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  orderBy,
+  query,
+} from 'firebase/firestore';
 import _ from 'lodash';
 import { useEffect } from 'react';
 import { db } from '../config/firebase';
 import {
   AppState,
+  IChannel,
+  IMessage,
   editMessage,
   removeMessage,
+  setMessage,
   useAppDispatch,
   useAppSelector,
-  writeMessage,
 } from '../redux';
 
-export const useRealtimeMessages = (channelId?: string) => {
+export const useRealtimeMessages = (channelId?: string | null) => {
   const dispatch = useAppDispatch();
   const { messages, loading, error } = useAppSelector(
     (state: AppState) => state.messages
@@ -24,35 +33,75 @@ export const useRealtimeMessages = (channelId?: string) => {
         orderBy('timestamp')
       );
 
-      const unsubscribe = onSnapshot(messageQuery, (querySnapshot) => {
-        querySnapshot.docChanges().forEach((change) => {
-          if (change.type === 'added') {
-            dispatch(writeMessage({ id: change.doc.id, ...change.doc.data() }));
-          } else if (change.type === 'modified') {
-            dispatch(
-              editMessage({
-                id: change.doc.id,
-                ...change.doc.data(),
-                edited: true,
-              })
-            );
-          } else if (change.type === 'removed') {
-            dispatch(removeMessage(change.doc.id));
-          }
-        });
-      });
+      (async () => {
+        const channelDoc = await getDoc(doc(db, 'channels', channelId));
+        if (channelDoc.exists()) {
+          const members = (channelDoc.data() as IChannel)?.members || [];
+          const userDocsPromises = members.map((memberId) =>
+            getDoc(doc(db, 'users', memberId))
+          );
+          const userDocs = await Promise.all(userDocsPromises);
+          const usersMetadata = userDocs.map((userDoc) => ({
+            uid: userDoc.id,
+            displayName: userDoc.data()?.displayName,
+            photoURL: userDoc.data()?.photoURL,
+          }));
 
-      return () => {
-        unsubscribe();
-      };
+          const findUserMetadata = (uid: string) =>
+            uid === 'message-bot'
+              ? {
+                  uid: 'message-bot',
+                  displayName: 'Message Bot',
+                  photoURL: '/message-bot.png',
+                }
+              : usersMetadata.find((user) => user.uid === uid);
+
+          const unsubscribe = onSnapshot(messageQuery, (querySnapshot) => {
+            querySnapshot.docChanges().forEach((change) => {
+              const messageData = change.doc.data() as IMessage;
+              const userMetadata = findUserMetadata(messageData.user);
+
+              if (change.type === 'added') {
+                dispatch(
+                  setMessage({
+                    ...messageData,
+                    ...userMetadata,
+                    id: change.doc.id,
+                    channelId: channelId,
+                  })
+                );
+              } else if (change.type === 'modified') {
+                dispatch(
+                  editMessage({
+                    ...messageData,
+                    id: change.doc.id,
+                    channelId: channelId,
+                    userMetadata,
+                    edited: true,
+                  })
+                );
+              } else if (change.type === 'removed') {
+                dispatch(removeMessage(change.doc.id));
+              }
+            });
+          });
+
+          return () => {
+            unsubscribe();
+          };
+        }
+      })();
     }
   }, [channelId, dispatch]);
 
-  const groupedMessages = _.groupBy(messages, (message) => {
-    const date = new Date(message.timestamp);
-    const formattedDate = date.toLocaleDateString();
-    return formattedDate;
-  });
+  const groupedMessages = _.groupBy(
+    channelId ? messages[channelId] : [],
+    (message) => {
+      const date = new Date(message.timestamp);
+      const formattedDate = date.toLocaleDateString();
+      return formattedDate;
+    }
+  );
 
   return {
     messages: groupedMessages,

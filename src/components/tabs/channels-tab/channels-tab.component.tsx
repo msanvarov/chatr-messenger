@@ -31,15 +31,14 @@ import {
 } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 import * as Yup from 'yup';
-import { useQueryOnContacts, useQueryOnUserChannels } from '../../../hooks';
 
+import { useQueryOnContacts, useQueryOnUserChannels } from '../../../hooks';
 import {
   createChannel,
   deleteUserFromChannel,
-  fetchChannel,
   IChannel,
   IUser,
-  setLastViewedChannel,
+  setLastOpenedChannel,
   useAppDispatch,
 } from '../../../redux';
 import ContactFinder from './contact-finder.component';
@@ -103,21 +102,9 @@ export const ChannelsTab = ({ uid, displayName }: ChannelsTabProps) => {
     channel: IChannel
   ) => {
     e.preventDefault();
-    const clickedChat = e.currentTarget as HTMLAnchorElement;
 
     // set last viewed channel
-    dispatch(setLastViewedChannel(channel.id));
-    dispatch(fetchChannel(channel.id));
-
-    const chatListEl = document.querySelector('#chat-list');
-    const li = chatListEl?.querySelectorAll('li');
-
-    li?.forEach((el) =>
-      el.classList.toggle('active', el.contains(clickedChat))
-    );
-
-    const userChat = document.querySelector('.user-chat');
-    userChat?.classList.add('user-chat-show');
+    dispatch(setLastOpenedChannel({ uid, channelId: channel.id }));
 
     navigate(`/${channel.id}`);
   };
@@ -150,7 +137,7 @@ export const ChannelsTab = ({ uid, displayName }: ChannelsTabProps) => {
         await dispatch(
           createChannel({
             name,
-            photoURL: 'https://picsum.photos/50',
+            photoURL: 'https://via.placeholder.com/100',
             // TODO: Refactor this to not pass in a JSON strinfied object but rather IUser
             members: [
               JSON.stringify({ uid, displayName }),
@@ -325,10 +312,10 @@ export const ChannelsTab = ({ uid, displayName }: ChannelsTabProps) => {
         style={{ maxHeight: '100%' }}
         className="p-4 chat-message-list chat-group-list"
       >
-        <ul className="list-unstyled chat-list">
+        <ul className="list-unstyled chat-list" id="channel-list">
           {filteredChannels.length >= 1 ? (
             filteredChannels.map((channel, key) => (
-              <li key={key}>
+              <li key={key} id={`channel-${channel.id}`}>
                 <Link
                   to={`/${channel.id}`}
                   onClick={(e) => onOpenChannel(e, channel)}
@@ -337,29 +324,48 @@ export const ChannelsTab = ({ uid, displayName }: ChannelsTabProps) => {
                     <div className="chat-user-img me-3 ms-0">
                       <div className="avatar-xs">
                         <span className="avatar-title rounded-circle bg-soft-primary text-primary">
-                          {/* {channel.photoURL ? (
+                          {channel.isDirectMessage ? (
                             <img
                               src={channel.photoURL}
                               alt="channel"
                               className="rounded-circle"
+                              style={{
+                                width: '35px',
+                                height: '35px',
+                                // borderRadius: '50%',
+                              }}
                             />
                           ) : (
                             channel.name.charAt(0)
-                          )} */}
-                          {channel.name.charAt(0)}
+                          )}
                         </span>
                       </div>
                     </div>
                     <Media body className="flex-grow-1 overflow-hidden">
                       <h5 className="text-truncate font-size-14 mb-0">
-                        #{channel.name}
-                        <Badge
-                          color="none"
-                          pill
-                          className="badge-soft-info float-end"
-                        >
-                          {_.values(channel.members).length} members
-                        </Badge>
+                        {channel.isDirectMessage ? (
+                          <>
+                            {channel.name}
+                            <Badge
+                              color="none"
+                              pill
+                              className="badge-soft-warning float-end"
+                            >
+                              Direct messages
+                            </Badge>
+                          </>
+                        ) : (
+                          <>
+                            {`#${channel.name}`}
+                            <Badge
+                              color="none"
+                              pill
+                              className="badge-soft-info float-end"
+                            >
+                              {_.values(channel.members).length} members
+                            </Badge>
+                          </>
+                        )}
                       </h5>
                     </Media>
                     <UncontrolledDropdown>

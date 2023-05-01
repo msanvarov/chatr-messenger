@@ -42,6 +42,7 @@ const ChatLandingPage = () => {
               <ContactsTab
                 {...{
                   uid: user.uid,
+                  displayName: user.displayName,
                 }}
               />
             </TabPane>

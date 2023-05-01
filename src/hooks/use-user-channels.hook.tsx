@@ -1,11 +1,19 @@
-import { collection, doc, documentId, onSnapshot, query, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  documentId,
+  onSnapshot,
+  query,
+  where,
+} from 'firebase/firestore';
 import { useEffect } from 'react';
 import {
-  db, IChannel,
+  IChannel,
   IUserMetadata,
+  db,
   setChannels,
   useAppDispatch,
-  useAppSelector
+  useAppSelector,
 } from '../redux';
 
 export const useUserChannels = (userId: string) => {
@@ -38,11 +46,8 @@ export const useUserChannels = (userId: string) => {
                 });
               }
             });
-            const filteredChannels = channels.filter(
-              (channel) => !channel?.isDirectMessage
-            );
-            dispatch(setChannels(filteredChannels));
-            
+
+            dispatch(setChannels(channels));
           }
         );
 
@@ -51,7 +56,6 @@ export const useUserChannels = (userId: string) => {
         };
       } else {
         console.error(`User with ID ${userId} does not exist.`);
-        
       }
     });
 

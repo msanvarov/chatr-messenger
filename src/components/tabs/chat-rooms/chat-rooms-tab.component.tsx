@@ -6,12 +6,7 @@ import { Button, Input, InputGroup, Media, Spinner } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 import { useQueryOnUserChannels } from '../../../hooks';
 
-import {
-  fetchChannel,
-  IChannel,
-  setLastViewedChannel,
-  useAppDispatch,
-} from '../../../redux';
+import { IChannel, setLastOpenedChannel, useAppDispatch } from '../../../redux';
 import ContactsCarousel from './contacts-carousel.component';
 
 type ChatRoomsTabProps = {
@@ -45,21 +40,9 @@ export const ChatRoomsTab: React.FC<ChatRoomsTabProps> = ({
     chat: IChannel
   ) => {
     e.preventDefault();
-    const clickedChat = e.currentTarget as HTMLAnchorElement;
 
     // set last viewed channel
-    dispatch(setLastViewedChannel(chat.id));
-    dispatch(fetchChannel(chat.id));
-
-    const chatListEl = document.querySelector('#chat-list');
-    const li = chatListEl?.querySelectorAll('li');
-
-    li?.forEach((el) =>
-      el.classList.toggle('active', el.contains(clickedChat))
-    );
-
-    const userChat = document.querySelector('.user-chat');
-    userChat?.classList.add('user-chat-show');
+    dispatch(setLastOpenedChannel({ channelId: chat.id, uid }));
 
     navigate(`/${chat.id}`);
 
