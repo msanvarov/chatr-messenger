@@ -29,7 +29,7 @@ const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: ['channel', 'messages', 'usersApi'],
+  blacklist: ['auth', 'user', 'channel', 'messages', 'usersApi'],
 };
 
 const history = createBrowserHistory();
