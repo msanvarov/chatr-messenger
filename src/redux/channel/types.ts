@@ -42,8 +42,10 @@ export interface IUpdateTypingStatusPayload {
   isTyping: boolean;
 }
 
-export interface ITypingUser extends IUserMetadata {
+export interface ITypingUser {
   id: string;
+  name: string;
+  photoURL: string;
 }
 
 export interface ILastMessage {
@@ -65,12 +67,12 @@ export interface IFirestoreChannel {
   directMessageMetadata?: IDirectMessageMetadata;
 }
 
-export interface IUserMetadata {
+export interface IDirectMessagingChannelMetadata {
   name: string;
   photoURL: string;
 }
 export interface IDirectMessageMetadata {
-  [uid: string]: IUserMetadata;
+  [uid: string]: IDirectMessagingChannelMetadata;
 }
 export interface INickname {
   setBy: string;

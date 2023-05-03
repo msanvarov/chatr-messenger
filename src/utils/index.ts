@@ -1,10 +1,13 @@
 import _ from 'lodash';
-import { IDirectMessageMetadata, IUserMetadata } from '../redux';
+import {
+  IDirectMessageMetadata,
+  IDirectMessagingChannelMetadata,
+} from '../redux';
 
 export const getDirectMessagingChannelMetadata = (
   uid: string,
   payload?: IDirectMessageMetadata
-): IUserMetadata | null => {
+): IDirectMessagingChannelMetadata | null => {
   if (!payload) return null;
   const nonUidKey = _.findKey(payload, (value, key) => key !== uid);
 
