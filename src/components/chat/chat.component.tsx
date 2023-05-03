@@ -239,7 +239,7 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
           />
         </div>
 
-        <ContactProfileSidebar {...{ uid, userSidebar, channel }} />
+        <ContactProfileSidebar {...{ displayName, userSidebar, channel }} />
       </div>
     </div>
   );

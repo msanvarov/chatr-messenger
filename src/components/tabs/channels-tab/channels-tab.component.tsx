@@ -34,13 +34,14 @@ import * as Yup from 'yup';
 
 import { useQueryOnContacts, useQueryOnUserChannels } from '../../../hooks';
 import {
-  createChannel,
-  deleteUserFromChannel,
   IChannel,
   IUser,
+  createChannel,
+  deleteUserFromChannel,
   setLastOpenedChannel,
   useAppDispatch,
 } from '../../../redux';
+import { getDirectMessagingChannelMetadata } from '../../../utils';
 import ContactFinder from './contact-finder.component';
 
 const CreateGroupSchema = Yup.object().shape({
@@ -130,13 +131,15 @@ export const ChannelsTab = ({ uid, displayName }: ChannelsTabProps) => {
       photo: '',
     },
     onSubmit: async ({ name, photo }) => {
-      console.log(photo);
+      console.log(name);
+
+      const formattedName = name.replace(/\s+/g, '-').toLowerCase();
 
       if (selectedContacts.size >= 2) {
         // TODO refactor to allow for image upload to firebae
         await dispatch(
           createChannel({
-            name,
+            name: formattedName,
             photoURL: 'https://via.placeholder.com/100',
             // TODO: Refactor this to not pass in a JSON strinfied object but rather IUser
             members: [
@@ -326,7 +329,10 @@ export const ChannelsTab = ({ uid, displayName }: ChannelsTabProps) => {
                         <span className="avatar-title rounded-circle bg-soft-primary text-primary">
                           {channel.isDirectMessage ? (
                             <img
-                              src={channel.photoURL}
+                              src={
+                                channel.photoURL ??
+                                'https://via.placeholder.com/100'
+                              }
                               alt="channel"
                               className="rounded-circle"
                               style={{
@@ -336,7 +342,7 @@ export const ChannelsTab = ({ uid, displayName }: ChannelsTabProps) => {
                               }}
                             />
                           ) : (
-                            channel.name.charAt(0)
+                            channel.name.charAt(0).toUpperCase()
                           )}
                         </span>
                       </div>
@@ -345,13 +351,18 @@ export const ChannelsTab = ({ uid, displayName }: ChannelsTabProps) => {
                       <h5 className="text-truncate font-size-14 mb-0">
                         {channel.isDirectMessage ? (
                           <>
-                            {channel.name}
+                            {
+                              getDirectMessagingChannelMetadata(
+                                uid,
+                                channel.directMessageMetadata
+                              )?.name
+                            }
                             <Badge
                               color="none"
                               pill
                               className="badge-soft-warning float-end"
                             >
-                              Direct messages
+                              direct message
                             </Badge>
                           </>
                         ) : (

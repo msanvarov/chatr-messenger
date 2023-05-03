@@ -12,6 +12,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
+import _ from 'lodash';
 import { IUser } from '../api/users/types';
 import { db } from '../firebase';
 
@@ -20,10 +21,12 @@ import type {
   IChannelState,
   ICreateChannelPayload,
   IDeleteChannelForUserPayload,
+  IFirestoreChannel,
   IUpdateTypingStatusPayload,
 } from './types';
 
 const initialState: IChannelState = {
+  recentlyCreatedChannelId: null,
   openedChannel: null,
   channels: [],
   loading: false,
@@ -48,7 +51,7 @@ export const createChannel = createAsyncThunk(
         (members) => (JSON.parse(members) as IUser).uid
       );
 
-      const channelPayload: Partial<IChannel> = {
+      const channelPayload: IFirestoreChannel = {
         name,
         members: memberIds,
         photoURL,
@@ -57,6 +60,41 @@ export const createChannel = createAsyncThunk(
         nicknames: [],
         typingUsers: [],
       };
+
+      if (isDirectMessage) {
+        console.log(isDirectMessage);
+        // Check if a direct message channel with the same members already exists
+        const channelsRef = collection(db, 'channels');
+        const existingChannelQuery = query(
+          channelsRef,
+          where('isDirectMessage', '==', true)
+        );
+        const existingChannelSnapshot = await getDocs(existingChannelQuery);
+
+        // Find a channel with the same unordered members
+        const existingChannel = existingChannelSnapshot.docs.find((doc) => {
+          const channelMembers = doc.data().members;
+          return _.isEqual(_.sortBy(channelMembers), _.sortBy(memberIds));
+        });
+
+        // If a channel is found, return its ID
+        if (existingChannel) {
+          return existingChannel.id;
+        }
+        // Populate the channelPayload with the direct message metadata
+        channelPayload.photoURL = null;
+        channelPayload.directMessageMetadata = _.mapValues(
+          _.keyBy(
+            members.map((members) => JSON.parse(members) as IUser),
+            'uid'
+          ),
+          (member) => ({
+            name: member.displayName,
+            photoURL: member.photoURL ?? 'https://via.placeholder.com/100',
+          })
+        );
+      }
+
       const channelRef = await addDoc(
         collection(db, 'channels'),
         channelPayload
@@ -183,6 +221,9 @@ export const channelSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    builder.addCase(createChannel.pending, (state) => {
+      state.loading = true;
+    });
     builder.addCase(fetchChannel.pending, (state) => {
       state.loading = true;
     });
@@ -192,14 +233,25 @@ export const channelSlice = createSlice({
     builder.addCase(patchTypingStatus.pending, (state) => {
       state.loading = true;
     });
+    builder.addCase(createChannel.rejected, (state, action) => {
+      state.loading = false;
+      state.error = action.payload as string;
+    });
     builder.addCase(fetchChannel.rejected, (state, action) => {
+      state.loading = false;
       state.error = action.payload as string;
     });
     builder.addCase(deleteUserFromChannel.rejected, (state, action) => {
+      state.loading = false;
       state.error = action.payload as string;
     });
     builder.addCase(patchTypingStatus.rejected, (state, action) => {
+      state.loading = false;
       state.error = action.payload as string;
+    });
+    builder.addCase(createChannel.fulfilled, (state, action) => {
+      state.loading = false;
+      state.recentlyCreatedChannelId = action.payload;
     });
     builder.addCase(fetchChannel.fulfilled, (state, action) => {
       state.loading = false;

@@ -34,7 +34,7 @@ const ContactsCarousel: React.FC<ContactsCarouselProps> = ({ uid }) => {
               <Link to={user.uid} className="user-status-box">
                 <div className="avatar-xs mx-auto d-block chat-user-img online">
                   <img
-                    src={user.photoURL ?? 'via.placeholder.com/100'}
+                    src={user.photoURL ?? 'https://via.placeholder.com/100'}
                     alt="user-img"
                     className="img-fluid rounded-circle"
                   />

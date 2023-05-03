@@ -1,5 +1,5 @@
-import { useAppSelector } from 'src/redux';
 import { Chat } from '../components/chat';
+import { useAppSelector } from '../redux';
 
 const ChatPage = () => {
   const user = useAppSelector((state) => state.user);

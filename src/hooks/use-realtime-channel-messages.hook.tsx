@@ -74,9 +74,9 @@ export const useRealtimeMessages = (channelId?: string | null) => {
                 dispatch(
                   editMessage({
                     ...messageData,
+                    ...userMetadata,
                     id: change.doc.id,
                     channelId: channelId,
-                    userMetadata,
                     edited: true,
                   })
                 );

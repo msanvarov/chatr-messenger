@@ -2,6 +2,7 @@ import {
   collection,
   doc,
   documentId,
+  getDocs,
   onSnapshot,
   query,
   where,
@@ -18,42 +19,40 @@ import {
 
 export const useUserChannels = (userId: string) => {
   const dispatch = useAppDispatch();
-  // const [channels, setChannels] = useState<IChannel[]>([]);
   const { channels, loading, error } = useAppSelector((state) => state.channel);
 
   useEffect(() => {
     const userDocRef = doc(db, 'users', userId);
 
+    const fetchChannelsInBatches = async (channelIds: string[]) => {
+      const channelsRef = collection(db, 'channels');
+      const batchSize = 10;
+      const channels: IChannel[] = [];
+
+      for (let i = 0; i < channelIds.length; i += batchSize) {
+        const batchIds = channelIds.slice(i, i + batchSize);
+        const channelsQuery = query(
+          channelsRef,
+          where(documentId(), 'in', batchIds)
+        );
+        const querySnapshot = await getDocs(channelsQuery);
+
+        querySnapshot.forEach((channelDoc) => {
+          if (channelDoc.exists()) {
+            channels.push({
+              ...(channelDoc.data() as IChannel),
+              id: channelDoc.id,
+            });
+          }
+        });
+      }
+      dispatch(setChannels(channels));
+    };
+
     const unsubscribeUser = onSnapshot(userDocRef, async (userDoc) => {
       if (userDoc.exists()) {
         const channelIds = (userDoc.data() as IUserMetadata)?.channels || [];
-
-        const channelsRef = collection(db, 'channels');
-        const channelsQuery = query(
-          channelsRef,
-          where(documentId(), 'in', channelIds)
-        );
-
-        const unsubscribeChannels = onSnapshot(
-          channelsQuery,
-          (querySnapshot) => {
-            const channels: IChannel[] = [];
-            querySnapshot.forEach((channelDoc) => {
-              if (channelDoc.exists()) {
-                channels.push({
-                  ...(channelDoc.data() as IChannel),
-                  id: channelDoc.id,
-                });
-              }
-            });
-
-            dispatch(setChannels(channels));
-          }
-        );
-
-        return () => {
-          unsubscribeChannels();
-        };
+        await fetchChannelsInBatches(channelIds);
       } else {
         console.error(`User with ID ${userId} does not exist.`);
       }

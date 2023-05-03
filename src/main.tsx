@@ -55,14 +55,14 @@ const PrivateRoute = ({
         dispatch(setIsEmailConfirmed(null));
         dispatch(
           setUserMetadata({
-            uid: '',
-            email: '',
+            uid: undefined,
+            email: null,
             bio: null,
-            photoURL: '',
+            photoURL: null,
             channels: [],
             location: null,
             lastLogin: null,
-            displayName: '',
+            displayName: null,
             registeredOn: null,
             lastOpenedChannel: null,
           })

@@ -6,6 +6,7 @@ import { Button, Input, InputGroup, Media, Spinner } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 import { useQueryOnUserChannels } from '../../../hooks';
 
+import { getDirectMessagingChannelMetadata } from 'src/utils';
 import { IChannel, setLastOpenedChannel, useAppDispatch } from '../../../redux';
 import ContactsCarousel from './contacts-carousel.component';
 
@@ -100,17 +101,7 @@ export const ChatRoomsTab: React.FC<ChatRoomsTabProps> = ({
               >
                 <Link to={`/${chat.id}`} onClick={(e) => onOpenChat(e, chat)}>
                   <Media className="d-flex">
-                    {!chat.photoURL ? (
-                      <div className="chat-user-img align-self-center me-3 ms-0">
-                        <div className="avatar-xs">
-                          <span className="avatar-title rounded-circle bg-soft-primary text-primary">
-                            {chat.name.charAt(0)}
-                          </span>
-                        </div>
-                        {/* TODO: Implement the online status */}
-                        <span className="user-status"></span>
-                      </div>
-                    ) : (
+                    {chat.photoURL ? (
                       <div className="chat-user-img align-self-center me-3 ms-0">
                         <img
                           src={chat.photoURL}
@@ -120,11 +111,26 @@ export const ChatRoomsTab: React.FC<ChatRoomsTabProps> = ({
                         {/* TODO: Implement the online status */}
                         <span className="user-status"></span>
                       </div>
+                    ) : (
+                      <div className="chat-user-img align-self-center me-3 ms-0">
+                        <div className="avatar-xs">
+                          <span className="avatar-title rounded-circle bg-soft-primary text-primary">
+                            {chat.name.charAt(0)}
+                          </span>
+                        </div>
+                        {/* TODO: Implement the online status */}
+                        <span className="user-status"></span>
+                      </div>
                     )}
 
                     <Media body className="flex-grow-1 overflow-hidden">
                       <h5 className="text-truncate font-size-15 mb-1">
-                        {chat.name}
+                        {chat.isDirectMessage
+                          ? getDirectMessagingChannelMetadata(
+                              uid,
+                              chat.directMessageMetadata
+                            )?.name
+                          : `#${chat.name}`}
                       </h5>
                       <p className="chat-user-message text-truncate mb-0">
                         {chat.lastMessage?.text.slice(0, 30) + '...'}

@@ -11,6 +11,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
+import _ from 'lodash';
 import { auth, db } from './firebase';
 
 import { IUserMetadata } from './user/types';
@@ -24,14 +25,20 @@ export const fetchUserMetadata = async (userId: string) => {
   }
 };
 
-export const channelExists = async (memberIds: string[]) => {
+export const directMessagingChannelExists = async (memberIds: string[]) => {
   const channelsRef = collection(db, 'channels');
   const channelsDataQuery = query(
     channelsRef,
-    where('members', '==', memberIds)
+    where('isDirectMessage', '==', true)
   );
+  // Find a channel with the same unordered members
   const channelsQuerySnapshot = await getDocs(channelsDataQuery);
-  return channelsQuerySnapshot.docs.length >= 1;
+  const existingChannel = channelsQuerySnapshot.docs.find((doc) => {
+    const channelMembers = doc.data().members;
+    return _.isEqual(_.sortBy(channelMembers), _.sortBy(memberIds));
+  });
+
+  return !!existingChannel;
 };
 
 export const patchUserMetadata = async (

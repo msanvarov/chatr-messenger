@@ -146,10 +146,10 @@ const messagesSlice = createSlice({
       const { channelId, id } = action.payload;
       if (state.messages[channelId] && state.messages[channelId][id]) {
         // Tracking if the message has been edited
-        state.messages[channelId][id] = {
+        Object.assign(state.messages[channelId][id], {
           ...action.payload,
           edited: true,
-        };
+        });
       }
     },
     removeMessage: (state, action) => {

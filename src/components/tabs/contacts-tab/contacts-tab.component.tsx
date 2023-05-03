@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Button,
@@ -21,13 +21,15 @@ import {
 } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 
+import { useNavigate } from 'react-router-dom';
 import { useQueryOnGroupedContacts } from '../../../hooks';
 import {
-  channelExists,
   createChannel,
   fetchUserMetadata,
   IUser,
+  setLastOpenedChannel,
   useAppDispatch,
+  useAppSelector,
 } from '../../../redux';
 
 type ContactsTabProps = {
@@ -37,7 +39,9 @@ type ContactsTabProps = {
 
 export const ContactsTab = ({ uid, displayName }: ContactsTabProps) => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const {recentlyCreatedChannelId} = useAppSelector((state) => state.channel);
   const [inviteContactsModal, setInviteContactsModal] =
     useState<boolean>(false);
   const toggle = () => setInviteContactsModal(!inviteContactsModal);
@@ -49,28 +53,33 @@ export const ContactsTab = ({ uid, displayName }: ContactsTabProps) => {
     // Get contact's user metadata
     const contactsMetadata = await fetchUserMetadata(userId);
 
-    // Check if a channel already exists between the two users
-    if (!channelExists([uid, userId])) {
-      dispatch(
-        createChannel({
-          name:
-            contactsMetadata.displayName ?? contactsMetadata.uid ?? 'Unknown',
-          members: [
-            JSON.stringify({ uid, displayName }),
-            JSON.stringify({
-              uid: userId,
-              displayName: contactsMetadata.displayName,
-              email: contactsMetadata.email,
-            }),
-          ],
-          photoURL:
-            contactsMetadata.photoURL ?? 'https://via.placeholder.com/100',
-          createdAt: new Date().toISOString(),
-          isDirectMessage: true,
-        })
-      );
-    }
+    dispatch(
+      createChannel({
+        name: `${displayName}-${contactsMetadata.displayName}`,
+        members: [
+          JSON.stringify({ uid, displayName }),
+          JSON.stringify({
+            uid: userId,
+            displayName: contactsMetadata.displayName,
+            email: contactsMetadata.email,
+          }),
+        ],
+        photoURL:
+          contactsMetadata.photoURL ?? 'https://via.placeholder.com/100',
+        createdAt: new Date().toISOString(),
+        isDirectMessage: true,
+      })
+    );
   };
+
+  useEffect(() => {
+    if (recentlyCreatedChannelId) {
+      dispatch(
+        setLastOpenedChannel({ channelId: recentlyCreatedChannelId, uid })
+      );
+      navigate(`/${recentlyCreatedChannelId}`);
+    }
+  }, [recentlyCreatedChannelId]);
 
   return (
     <>
@@ -160,10 +169,7 @@ export const ContactsTab = ({ uid, displayName }: ContactsTabProps) => {
             <ul className="list-unstyled contact-list">
               {_.values(children as IUser[]).map(
                 (child, contactChildrenKey) => (
-                  <li
-                    key={contactChildrenKey}
-                    onClick={() => createDirectMessageWithContact(child.uid)}
-                  >
+                  <li key={contactChildrenKey}>
                     <Media className="d-flex align-items-center">
                       <Media body className="flex-grow-1">
                         <h5 className="font-size-14 m-0">
@@ -176,7 +182,11 @@ export const ContactsTab = ({ uid, displayName }: ContactsTabProps) => {
                           <i className="ri-more-2-fill"></i>
                         </DropdownToggle>
                         <DropdownMenu end>
-                          <DropdownItem onClick={() => console.log(child.uid)}>
+                          <DropdownItem
+                            onClick={() =>
+                              createDirectMessageWithContact(child.uid)
+                            }
+                          >
                             {t('Message')}{' '}
                             <i className="ri-user-add-line float-end text-muted"></i>
                           </DropdownItem>
