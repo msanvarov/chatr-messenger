@@ -26,7 +26,11 @@ export const getUserMetadata = createAsyncThunk(
   '@@user/getUserMetadata',
   async (uid: string, { rejectWithValue }) => {
     try {
-      return await fetchUserMetadata(uid);
+      const userMetadata = await fetchUserMetadata(uid);
+      return {
+        ...userMetadata,
+        uid,
+      };
     } catch (e) {
       return rejectWithValue((e as Error).message);
     }
