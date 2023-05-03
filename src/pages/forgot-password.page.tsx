@@ -16,6 +16,7 @@ import {
   InputGroup,
   Label,
   Row,
+  Spinner,
 } from 'reactstrap';
 import * as Yup from 'yup';
 
@@ -120,7 +121,11 @@ const ForgotPasswordPage: React.FC = () => {
                           className="waves-effect waves-light"
                           type="submit"
                         >
-                          {t('Reset')}
+                          {loading ? (
+                            <Spinner size="sm" type="grow" color="dark" />
+                          ) : (
+                            t('Request Reset')
+                          )}
                         </Button>
                       </div>
                     </Form>
@@ -128,11 +133,7 @@ const ForgotPasswordPage: React.FC = () => {
                 </CardBody>
               </Card>
 
-              <Footer
-                text="Remember password"
-                linkText="Signin"
-                link="/auth/login"
-              />
+              <Footer text="Go back to" linkText="Login" link="/auth/login" />
             </Col>
           </Row>
         </Container>

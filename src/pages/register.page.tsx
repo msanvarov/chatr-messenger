@@ -18,6 +18,7 @@ import {
   InputGroup,
   Label,
   Row,
+  Spinner,
 } from 'reactstrap';
 import * as Yup from 'yup';
 
@@ -84,8 +85,8 @@ const RegisterPage = () => {
           <Row className="justify-content-center">
             <Col md={8} lg={6} xl={5}>
               <Header
-                heading={t('Sign up')}
-                subheading={`${t('Get your Chatr account now')}.`}
+                heading={t('Register')}
+                subheading={`${t('Become part of the Chatr family')}.`}
               />
 
               <Card>
@@ -193,15 +194,19 @@ const RegisterPage = () => {
                           className=" waves-effect waves-light"
                           type="submit"
                         >
-                          Sign up
+                          {loading ? (
+                            <Spinner size="sm" type="grow" color="dark" />
+                          ) : (
+                            'Register'
+                          )}
                         </Button>
                       </div>
 
                       <div className="mt-4 text-center">
                         <p className="text-muted mb-0">
-                          {t('By registering you agree to the Chatr')}{' '}
+                          {t("By registering you agree to the Chatr's")}{' '}
                           <Link to="#" className="text-primary">
-                            {t('Terms of Use')}
+                            {t('Policy and Conditions')}
                           </Link>
                         </p>
                       </div>
@@ -211,8 +216,8 @@ const RegisterPage = () => {
               </Card>
 
               <Footer
-                text="Already have an account?"
-                linkText="Signin"
+                text="Part of Chatr?"
+                linkText="Login"
                 link="/auth/login"
               />
             </Col>

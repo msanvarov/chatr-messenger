@@ -17,6 +17,7 @@ import {
   InputGroup,
   Label,
   Row,
+  Spinner,
 } from 'reactstrap';
 import * as Yup from 'yup';
 
@@ -74,8 +75,8 @@ const LoginPage: React.FC = () => {
           <Row className="justify-content-center">
             <Col md={8} lg={6} xl={5}>
               <Header
-                heading={t('Sign in')}
-                subheading={t('Sign in to continue to Chatr.')}
+                heading={t('Login')}
+                subheading={t('Login to continue to Chatr.')}
               />
 
               <Card>
@@ -173,7 +174,7 @@ const LoginPage: React.FC = () => {
                           className="form-check-label"
                           htmlFor="persistLogin-check"
                         >
-                          {t('Stay signed in for longer')}
+                          {t('Persist Login')}
                         </Label>
                       </div>
                       <div className="d-grid">
@@ -183,7 +184,11 @@ const LoginPage: React.FC = () => {
                           className="waves-effect waves-light"
                           type="submit"
                         >
-                          {t('Sign in')}
+                          {loading ? (
+                            <Spinner size="sm" type="grow" color="dark" />
+                          ) : (
+                            t('Login')
+                          )}
                         </Button>
                       </div>
                     </Form>
@@ -192,8 +197,8 @@ const LoginPage: React.FC = () => {
               </Card>
 
               <Footer
-                text="Don't have an account"
-                linkText="Signup now"
+                text="Don't have an account?"
+                linkText="Register"
                 link="/auth/register"
               />
             </Col>
