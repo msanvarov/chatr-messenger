@@ -12,7 +12,7 @@ import {
 import { Spinner } from 'reactstrap';
 import { PersistGate } from 'redux-persist/integration/react';
 
-import ChatLandingPage from './pages/chat-landing.page';
+import ChatLayoutPage from './pages/chat-layout.page';
 import ChatPage from './pages/chat.page';
 import ForgotPasswordPage from './pages/forgot-password.page';
 import LoginPage from './pages/login.page';
@@ -158,7 +158,7 @@ const router = createBrowserRouter([
         path: '',
         element: (
           <PrivateRoute>
-            <ChatLandingPage />
+            <ChatLayoutPage />
           </PrivateRoute>
         ),
         children: [{ path: ':channelId', element: <ChatPage /> }],
