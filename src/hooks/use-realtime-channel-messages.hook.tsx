@@ -8,7 +8,6 @@ import {
 } from 'firebase/firestore';
 import _ from 'lodash';
 import { useEffect } from 'react';
-import { db } from '../config/firebase';
 import {
   AppState,
   IChannel,
@@ -19,6 +18,7 @@ import {
   useAppDispatch,
   useAppSelector,
 } from '../redux';
+import { db } from '../redux/firebase';
 
 export const useRealtimeMessages = (channelId?: string | null) => {
   const dispatch = useAppDispatch();
