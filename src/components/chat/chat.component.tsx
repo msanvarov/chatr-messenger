@@ -232,14 +232,10 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
             </ModalBody>
           </Modal>
 
-          <ChatInput
-            {...{ uid, displayName, photoURL, channelId }}
-            // channelId={channel?.id}
-            // channelId={channelId}
-          />
+          <ChatInput {...{ uid, displayName, photoURL, channelId }} />
         </div>
 
-        <ContactProfileSidebar {...{ displayName, userSidebar, channel }} />
+        <ContactProfileSidebar {...{ uid, userSidebar, channel }} />
       </div>
     </div>
   );

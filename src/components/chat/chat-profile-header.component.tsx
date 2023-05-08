@@ -17,6 +17,7 @@ import {
   toggleUserSidebar,
   useAppDispatch,
 } from '../../redux';
+import { getDirectMessagingChannelMetadata } from '../../utils';
 
 type ChatProfileHeaderProps = {
   uid: string;
@@ -79,7 +80,12 @@ const ChatProfileHeader: React.FC<ChatProfileHeaderProps> = ({
               <div className="chat-user-img align-self-center me-3">
                 <div className="avatar-xs">
                   <span className="avatar-title rounded-circle bg-soft-primary text-primary">
-                    {channel?.name.charAt(0)}
+                    {channel?.isDirectMessage
+                      ? getDirectMessagingChannelMetadata(
+                          uid,
+                          channel.directMessageMetadata
+                        )?.name.charAt(0)
+                      : `#${channel?.name}`.charAt(0)}
                   </span>
                 </div>
               </div>
@@ -92,7 +98,12 @@ const ChatProfileHeader: React.FC<ChatProfileHeaderProps> = ({
                   onClick={onClickToggleUserSidebar}
                   className="text-reset user-profile-show"
                 >
-                  {channel?.name}
+                  {channel?.isDirectMessage
+                    ? getDirectMessagingChannelMetadata(
+                        uid,
+                        channel.directMessageMetadata
+                      )?.name
+                    : `#${channel?.name}`}
                 </Link>
                 {/* TODO add presence */}
                 {/* {(() => {

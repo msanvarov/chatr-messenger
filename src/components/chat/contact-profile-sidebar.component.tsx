@@ -1,24 +1,25 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactMoment from 'react-moment';
 import { Button, Card, Media } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 
 import { IChannel, toggleUserSidebar, useAppDispatch } from '../../redux';
+import { getDirectMessagingChannelMetadata } from '../../utils';
 import { CustomCollapse } from '../tabs/custom-collapse.component';
 import GroupCard from '../tabs/profile-tab/group-card.component';
 
 type ContactProfileSidebarProps = {
-  displayName: string | null;
+  uid: string;
   channel: IChannel | null;
   userSidebar: boolean;
 };
 
-const ContactProfileSidebar: React.FC<ContactProfileSidebarProps> = ({
-  displayName,
+const ContactProfileSidebar = ({
+  uid,
   channel,
   userSidebar,
-}) => {
+}: ContactProfileSidebarProps) => {
   const { t } = useTranslation();
   const [isProfileDropdownOpen, setIsOpen1] = useState(true);
   const dispatch = useAppDispatch();
@@ -89,7 +90,12 @@ const ContactProfileSidebar: React.FC<ContactProfileSidebarProps> = ({
         </div>
 
         <h5 className="font-size-16 mb-1 text-truncate">
-          Channel: #{channel?.name}
+          {channel?.isDirectMessage
+            ? getDirectMessagingChannelMetadata(
+                uid,
+                channel.directMessageMetadata
+              )?.name
+            : `#${channel?.name}`}
         </h5>
         {/* <p className="text-muted text-truncate mb-1">
           {(() => {
@@ -141,7 +147,10 @@ const ContactProfileSidebar: React.FC<ContactProfileSidebarProps> = ({
                 <p className="text-muted mb-1">{t('Name')}</p>
                 <h5 className="font-size-14">
                   {channel?.isDirectMessage
-                    ? channel?.name
+                    ? getDirectMessagingChannelMetadata(
+                        uid,
+                        channel.directMessageMetadata
+                      )?.name
                     : `#${channel?.name}`}
                 </h5>
               </div>
