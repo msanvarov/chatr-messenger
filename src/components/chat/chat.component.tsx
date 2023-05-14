@@ -21,7 +21,7 @@ import SimpleBar from 'simplebar-react';
 import {
   AppState,
   IMessage,
-  getChannel,
+  fetchChannel,
   useAppDispatch,
   useAppSelector,
 } from '../../redux';
@@ -54,8 +54,8 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
 
   useEffect(() => {
     if (channelId) {
-      // dispatch
-      dispatch(getChannel(channelId));
+      // TODO: Refactor refetching for the channel when the use-user-channels hooks is already doing that
+      dispatch(fetchChannel(channelId));
     }
   }, [channelId]);
 
@@ -77,7 +77,7 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
     console.log('Deleting', message);
   };
 
-  if (loading || !channel) {
+  if (loading) {
     return <Spinner className="spinner" color="dark" type="grow" />;
   }
 
