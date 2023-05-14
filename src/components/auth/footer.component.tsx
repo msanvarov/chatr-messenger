@@ -3,21 +3,21 @@ import { Link } from 'react-router-dom';
 
 type FooterProps = {
   text: string;
-  link: string;
-  linkText: string;
+  url: string;
+  linkBody: string;
 };
 
 const year = new Date().getFullYear();
 
-export const Footer = ({ text, linkText, link }: FooterProps) => {
+export const Footer = ({ text, linkBody, url }: FooterProps) => {
   const { t } = useTranslation();
   return (
     <div className="mt-5 text-center">
       <p>
         {t(text)}
-        <Link to={link} className="font-weight-medium text-primary">
+        <Link to={url} className="font-weight-medium text-primary">
           {' '}
-          {t(linkText)}{' '}
+          {t(linkBody)}{' '}
         </Link>{' '}
       </p>
       <p>

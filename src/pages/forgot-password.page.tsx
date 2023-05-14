@@ -133,7 +133,7 @@ const ForgotPasswordPage: React.FC = () => {
                 </CardBody>
               </Card>
 
-              <Footer text="Go back to" linkText="Login" link="/auth/login" />
+              <Footer text="Go back to" linkBody="Login" url="/auth/login" />
             </Col>
           </Row>
         </Container>

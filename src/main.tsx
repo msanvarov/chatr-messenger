@@ -56,15 +56,15 @@ const PrivateRoute = ({
         dispatch(
           setUserMetadata({
             uid: undefined,
-            email: null,
-            bio: null,
-            photoURL: null,
+            email: undefined,
+            bio: undefined,
+            photoURL: undefined,
             channels: [],
-            location: null,
-            lastLogin: null,
-            displayName: null,
-            registeredOn: null,
-            lastOpenedChannel: null,
+            location: undefined,
+            lastLogin: undefined,
+            displayName: undefined,
+            registeredOn: undefined,
+            lastOpenedChannel: undefined,
           })
         );
       }

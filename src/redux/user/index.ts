@@ -8,18 +8,18 @@ import type {
 } from './types';
 
 const initialState: IUserState = {
-  uid: '',
-  email: '',
-  bio: null,
+  uid: undefined,
+  email: undefined,
+  bio: undefined,
   error: null,
-  photoURL: '',
+  photoURL: undefined,
   channels: [],
-  location: null,
+  location: undefined,
   loading: false,
-  lastLogin: null,
-  displayName: '',
-  registeredOn: null,
-  lastOpenedChannel: null,
+  lastLogin: undefined,
+  displayName: undefined,
+  registeredOn: undefined,
+  lastOpenedChannel: undefined,
 };
 
 export const getUserMetadata = createAsyncThunk(

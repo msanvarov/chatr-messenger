@@ -198,8 +198,8 @@ const LoginPage: React.FC = () => {
 
               <Footer
                 text="Don't have an account?"
-                linkText="Register"
-                link="/auth/register"
+                linkBody="Register"
+                url="/auth/register"
               />
             </Col>
           </Row>

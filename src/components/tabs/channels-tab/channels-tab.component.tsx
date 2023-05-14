@@ -51,7 +51,7 @@ const CreateGroupSchema = Yup.object().shape({
 
 type ChannelsTabProps = {
   uid: string;
-  displayName: string | null;
+  displayName?: string | null;
 };
 
 export const ChannelsTab = ({ uid, displayName }: ChannelsTabProps) => {

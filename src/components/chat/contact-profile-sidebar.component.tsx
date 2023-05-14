@@ -166,7 +166,7 @@ const ContactProfileSidebar = ({
 
           <Card className="mb-1 shadow-none border">
             <CustomCollapse
-              title="Attached Files"
+              title="Files"
               iconClass="ri-attachment-line"
               isOpen={isOpen2}
               toggleCollapse={toggleCollapse2}

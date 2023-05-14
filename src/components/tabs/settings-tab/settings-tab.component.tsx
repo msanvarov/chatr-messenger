@@ -35,8 +35,10 @@ const ProfileEditSchema = Yup.object().shape({
   bio: Yup.string().min(2).max(255),
   location: Yup.string().required('Required'),
 });
-type SettingsTabProps = { profile: IUserState };
-const SettingsTab: React.FC<SettingsTabProps> = ({ profile }) => {
+
+type SettingsTabProps = { user: IUserState };
+
+const SettingsTab = ({ user }: SettingsTabProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
   // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -56,11 +58,11 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ profile }) => {
 
   useEffect(() => {
     setValues({
-      name: profile.displayName ?? '',
-      bio: profile.bio ?? '',
-      location: profile.location ?? '',
+      name: user.displayName ?? '',
+      bio: user.bio ?? '',
+      location: user.location ?? '',
     });
-  }, [profile]);
+  }, [user]);
 
   const {
     handleChange,
@@ -74,31 +76,34 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ profile }) => {
   } = useFormik({
     validationSchema: ProfileEditSchema,
     initialValues: {
-      name: profile.displayName ?? '',
-      location: profile.location ?? '',
-      bio: profile.bio ?? '',
+      name: user.displayName ?? '',
+      location: user.location ?? '',
+      bio: user.bio ?? '',
     },
     onSubmit: async ({ name, location, bio }) => {
       // TODO use react-places-autocomplete for location changing
 
-      const userMetadataPayload = {
-        uid: profile.uid,
-        displayName: name,
-        location,
-        bio,
-      };
-
-      await patchUserMetadata(profile.uid, userMetadataPayload);
-
-      dispatch(setUserMetadata(userMetadataPayload));
-      resetForm({
-        values: {
-          name,
+      if (user.uid) {
+        const userMetadataPayload = {
+          uid: user.uid,
+          displayName: name,
           location,
           bio,
-        },
-      });
-      setShowProfileUpdateAlert(true);
+        };
+
+        await patchUserMetadata(user.uid, userMetadataPayload);
+
+        dispatch(setUserMetadata(userMetadataPayload));
+
+        resetForm({
+          values: {
+            name,
+            location,
+            bio,
+          },
+        });
+        setShowProfileUpdateAlert(true);
+      }
     },
   });
 
@@ -157,7 +162,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ profile }) => {
       <div className="text-center border-bottom p-4">
         <div className="mb-4 profile-user">
           <img
-            src={profile.photoURL || 'https://via.placeholder.com/200'}
+            src={user.photoURL || 'https://via.placeholder.com/200'}
             alt="profile"
             className="rounded-circle avatar-lg img-thumbnail"
           />
@@ -182,7 +187,7 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ profile }) => {
         </div>
 
         <h5 className="font-size-16 mb-1 text-truncate">
-          {t(profile.displayName ?? 'Display name not found')}
+          {t(user.displayName ?? 'Display name not found')}
         </h5>
         <Dropdown
           isOpen={showProfileStatusDropdown}
@@ -217,8 +222,8 @@ const SettingsTab: React.FC<SettingsTabProps> = ({ profile }) => {
             >
               {showProfileUpdateAlert && <Alert>Updated Profile</Alert>}
               <Form onSubmit={handleSubmit}>
-                {!profile.loading && profile.error && (
-                  <Alert color="danger">{profile.error}</Alert>
+                {!user.loading && user.error && (
+                  <Alert color="danger">{user.error}</Alert>
                 )}
                 <div className="float-end">
                   <Button

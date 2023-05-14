@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet';
 import { Outlet } from 'react-router-dom';
-import { TabContent, TabPane } from 'reactstrap';
+import { Spinner, TabContent, TabPane } from 'reactstrap';
 import { LeftPaneMenu } from '../components/menu';
 import { ChannelsTab } from '../components/tabs/channels-tab/channels-tab.component';
 import { ChatRoomsTab } from '../components/tabs/chat-rooms/chat-rooms-tab.component';
@@ -12,6 +12,11 @@ import { useAppSelector } from '../redux';
 const ChatLandingPage = () => {
   const user = useAppSelector((state) => state.user);
   const { activeTab } = useAppSelector((state) => state.layout);
+
+  if (!user.uid) {
+    return <Spinner className="spinner" color="dark" type="grow" />;
+  }
+
   return (
     <>
       <Helmet title="Chat Portal" />
@@ -47,7 +52,7 @@ const ChatLandingPage = () => {
               />
             </TabPane>
             <TabPane tabId="settings" id="pills-setting">
-              <SettingsTab {...{ profile: user }} />
+              <SettingsTab {...{ user: user }} />
             </TabPane>
           </TabContent>
         </div>

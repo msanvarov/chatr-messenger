@@ -34,14 +34,14 @@ import {
 
 type ContactsTabProps = {
   uid: string;
-  displayName: string | null;
+  displayName?: string | null;
 };
 
 export const ContactsTab = ({ uid, displayName }: ContactsTabProps) => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const {recentlyCreatedChannelId} = useAppSelector((state) => state.channel);
+  const { recentlyCreatedChannelId } = useAppSelector((state) => state.channel);
   const [inviteContactsModal, setInviteContactsModal] =
     useState<boolean>(false);
   const toggle = () => setInviteContactsModal(!inviteContactsModal);

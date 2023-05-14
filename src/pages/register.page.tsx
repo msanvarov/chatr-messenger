@@ -217,8 +217,8 @@ const RegisterPage = () => {
 
               <Footer
                 text="Part of Chatr?"
-                linkText="Login"
-                link="/auth/login"
+                linkBody="Login"
+                url="/auth/login"
               />
             </Col>
           </Row>

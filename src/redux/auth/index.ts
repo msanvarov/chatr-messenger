@@ -51,6 +51,7 @@ export const login = createAsyncThunk(
           uid: user.uid,
           displayName: user.displayName,
           photoURL: user.photoURL,
+          lastLogin: user.metadata.lastSignInTime,
         })
       );
 
@@ -85,7 +86,6 @@ export const register = createAsyncThunk(
         bio: null,
         location: null,
         registeredOn: user.metadata.creationTime,
-        lastLogin: user.metadata.lastSignInTime,
       };
 
       await Promise.all([

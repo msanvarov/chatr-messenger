@@ -35,8 +35,8 @@ import ContactProfileSidebar from './contact-profile-sidebar.component';
 
 type ChatProps = {
   uid: string;
-  photoURL: string | null;
-  displayName: string | null;
+  photoURL?: string | null;
+  displayName?: string | null;
 };
 
 export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
@@ -54,6 +54,7 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
 
   useEffect(() => {
     if (channelId) {
+      // dispatch
       dispatch(getChannel(channelId));
     }
   }, [channelId]);
@@ -76,7 +77,7 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
     console.log('Deleting', message);
   };
 
-  if (loading) {
+  if (loading || !channel) {
     return <Spinner className="spinner" color="dark" type="grow" />;
   }
 
@@ -232,7 +233,7 @@ export const Chat = ({ uid, photoURL, displayName }: ChatProps) => {
             </ModalBody>
           </Modal>
 
-          <ChatInput {...{ uid, displayName, photoURL, channelId }} />
+          <ChatInput {...{ uid, channelId }} />
         </div>
 
         <ContactProfileSidebar {...{ uid, userSidebar, channel }} />

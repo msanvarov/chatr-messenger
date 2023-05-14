@@ -40,7 +40,7 @@ export const LeftPaneMenu = () => {
   const { activeTab, layoutColorMode } = useAppSelector(
     (state: AppState) => state.layout
   );
-  const profile = useAppSelector((state: AppState) => state.user);
+  const user = useAppSelector((state: AppState) => state.user);
   const [language, setLanguage] =
     useState<Languages[keyof Languages]>('English');
   const dispatch = useAppDispatch();
@@ -164,9 +164,9 @@ export const LeftPaneMenu = () => {
             className="profile-user-dropdown d-inline-block d-lg-none dropup"
           >
             <DropdownToggle nav>
-              {profile ? (
+              {user ? (
                 <img
-                  src={profile.photoURL || 'https://via.placeholder.com/200'}
+                  src={user.photoURL || 'https://via.placeholder.com/200'}
                   alt="chatr"
                   className="profile-user rounded-circle"
                 />
@@ -291,9 +291,9 @@ export const LeftPaneMenu = () => {
             toggle={toggleProfile}
           >
             <DropdownToggle nav>
-              {profile ? (
+              {user ? (
                 <img
-                  src={profile.photoURL || 'https://via.placeholder.com/200'}
+                  src={user.photoURL || 'https://via.placeholder.com/200'}
                   alt="profile"
                   className="profile-user rounded-circle"
                 />

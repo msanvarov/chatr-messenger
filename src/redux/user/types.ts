@@ -20,7 +20,7 @@ export interface ILastOpenedChannelPayload {
   channelId: string;
 }
 
-export interface IUserState extends IUserMetadata {
+export interface IUserState extends Partial<IUserMetadata> {
   loading: boolean;
   error: string | null;
 }

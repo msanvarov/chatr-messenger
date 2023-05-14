@@ -2,7 +2,7 @@ import data from '@emoji-mart/data';
 import Picker from '@emoji-mart/react';
 import {} from 'emoji-mart';
 import { useFormik } from 'formik';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Button,
   ButtonDropdown,
@@ -17,6 +17,7 @@ import {
 } from 'reactstrap';
 import * as Yup from 'yup';
 
+import { useTranslation } from 'react-i18next';
 import { createMessage, useAppDispatch } from '../../redux';
 
 const ChatInputSchema = Yup.object().shape({
@@ -26,16 +27,10 @@ const ChatInputSchema = Yup.object().shape({
 type ChatInputProps = {
   uid: string;
   channelId?: string;
-  displayName: string | null;
-  photoURL: string | null;
 };
-const ChatInput: React.FC<ChatInputProps> = ({
-  uid,
-  displayName,
-  photoURL,
-  channelId,
-}) => {
+const ChatInput = ({ uid, channelId }: ChatInputProps) => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const [showEmojiPickerModal, setShowEmojiPickerModal] =
     useState<boolean>(false);
 
@@ -71,8 +66,8 @@ const ChatInput: React.FC<ChatInputProps> = ({
 
   const toggle = () => setShowEmojiPickerModal(!showEmojiPickerModal);
 
-  const addEmoji = (e: unknown) => {
-    setFieldValue('message', values.message + e); // or e.native
+  const addEmoji = (e: Record<string, string>) => {
+    setFieldValue('message', values.message + e.native); // or e.native
   };
 
   return (
@@ -138,7 +133,7 @@ const ChatInput: React.FC<ChatInputProps> = ({
                     />
                   </Label>
                   <UncontrolledTooltip target="files" placement="top">
-                    Attach a file
+                    {t('Publish File')}
                   </UncontrolledTooltip>
                 </li>
                 <li className="list-inline-item">

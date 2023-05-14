@@ -12,7 +12,7 @@ import ContactsCarousel from './contacts-carousel.component';
 
 type ChatRoomsTabProps = {
   uid: string;
-  lastOpenedChannel: string | null;
+  lastOpenedChannel?: string | null;
 };
 
 export const ChatRoomsTab: React.FC<ChatRoomsTabProps> = ({
