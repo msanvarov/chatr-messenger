@@ -57,7 +57,11 @@ const LoginPage: React.FC = () => {
     setFieldValue,
   } = useFormik({
     validationSchema: LoginSchema,
-    initialValues: { email: '', password: '', persistLogin: true },
+    initialValues: {
+      email: 'mcoute@grr.la',
+      password: 'Mcoute25011313',
+      persistLogin: true,
+    },
     onSubmit: async ({ email, password, persistLogin }) => {
       dispatch(login({ email, password, persistLogin }));
     },
