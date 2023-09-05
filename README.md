@@ -7,10 +7,8 @@
 <p align="center">A messaging platform built with <a href="https://react.dev/" target="blank">React</a>, <a href="https://firebase.google.com/" target="blank">Firebase</a> and <a href="https://reactstrap.github.io/?path=/story/home-installation--page" target="blank">Reactstrap (Bootstrap v5)</a>.</p>
 
 <p align="center">
-  <a href="https://nx.dev/" target="blank"><img src="https://img.shields.io/badge/Nx-13.1.2-blue" alt="Nx Version" /></a>
-  <a href="https://reactjs.org/" target="blank"><img src="https://img.shields.io/badge/React-17.0.2-blue" alt="React Version" /></a>
-  <a href="https://redux.js.org/" target="blank"><img src="https://img.shields.io/badge/Redux-4.1.2-blue" alt="Redux Version" /></a>
-  <a href="https://firebase.google.com/" target="blank"><img src="https://img.shields.io/badge/Firebase-9.6.3-orange" alt="Firebase Version" /></a>
+  <a href="https://github.com/msanvarov/chatr-messenger/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-green" alt="Package License" /></a>
+	<a href="https://github.com/msanvarov/chatr-messenger/actions"><img src="https://github.com/msanvarov/chatr-messenger/actions/workflows/firebase-hosting.yml/badge.svg" alt="Github Actions" /></a>
 </p>
 
 Table of Contents:
