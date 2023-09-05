@@ -6,8 +6,8 @@ import { Button, Input, InputGroup, Media, Spinner } from 'reactstrap';
 import SimpleBar from 'simplebar-react';
 import { useQueryOnUserChannels } from '../../../hooks';
 
-import { getDirectMessagingChannelMetadata } from 'src/utils';
 import { IChannel, setLastOpenedChannel, useAppDispatch } from '../../../redux';
+import { getDirectMessagingChannelMetadata } from '../../../utils';
 import ContactsCarousel from './contacts-carousel.component';
 
 type ChatRoomsTabProps = {
